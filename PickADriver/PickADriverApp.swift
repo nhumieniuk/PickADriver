@@ -1,17 +1,13 @@
-//
-//  PickADriverApp.swift
-//  PickADriver
-//
-//  Created by Student on 2/2/22.
-//
+
 
 import SwiftUI
 
 @main
 struct PickADriverApp: App {
+    @ObservedObject var driverIndex = DriverIndex()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(driverIndex: driverIndex)
         }
     }
 }
