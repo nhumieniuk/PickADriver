@@ -22,7 +22,9 @@ struct AddView: View {
                 let finalName = Name(period: period, id: UUID(), name: name)
                 print(period)
                 print(name)
-                driverIndex.names.append(finalName)
+                if finalName.name != "" {
+                    driverIndex.names.append(finalName)
+                }
                 presentationMode.wrappedValue.dismiss()
             })
         }

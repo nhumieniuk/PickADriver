@@ -28,8 +28,11 @@ class DriverIndex: ObservableObject {
     }
 }
 
-struct Name: Identifiable, Codable, Hashable {
+ struct Name: Identifiable, Codable, Hashable {
     var period = Int()
     var id = UUID()
     var name = String()
+    var faded = Bool()
+    var invisible = Bool()
 }
+
