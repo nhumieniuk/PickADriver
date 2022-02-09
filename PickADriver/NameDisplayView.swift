@@ -9,26 +9,37 @@ import SwiftUI
 
 struct NameDisplayView: View {
     @ObservedObject var driverIndex: DriverIndex
-    @State var currentPeriodStudents = [Int()]
-    @State var viewNumber = 0
+    @State private var winnerText = Text("")
+    @State private var winnerShown = false
+    let gridItemLayout: [GridItem]
     let period: Int
     var body: some View {
-        
-        Button("reset")
-        {
-            for i in 0..<currentPeriodIndices().count {
-                driverIndex.names[currentPeriodIndices()[i]].invisible = false
+        ZStack{
+            VStack{
+                winnerText
+                    .foregroundColor(Color(UIColor.label))
+                Button("reset")
+                {
+                    for i in 0..<currentPeriodIndices().count {
+                        driverIndex.names[currentPeriodIndices()[i]].invisible = false
+                    }
+                    winnerShown = false
+                    winnerText = Text("")
+                }
+                .opacity(winnerShown ? 1 : 0)
+                
             }
-        }
-        Button("Select a random person"){
-            selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
-        }
-        
-        ForEach(driverIndex.names.indices, id: \.self) { index in
-            HStack{
-                if(driverIndex.names[index].period == period){
-                    VStack{
+            .font(.largeTitle)
+            .multilineTextAlignment(.center)
+            LazyVGrid(columns: gridItemLayout, spacing: 8){
+                ForEach(driverIndex.names.indices, id: \.self) { index in
+                    if(driverIndex.names[index].period == period){
                         Text(driverIndex.names[index].name)
+                            .padding()
+                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .center)
+                            .background(Color(UIColor.secondarySystemBackground))
+                            .foregroundColor(Color(UIColor.label))
+                            .cornerRadius(10)
                             .onTapGesture {
                                 driverIndex.names[index].faded.toggle()
                             }
@@ -38,107 +49,67 @@ struct NameDisplayView: View {
                 }
             }
         }
-       // ForEach(driverIndex.names, id: \.self) { student in
-       //     HStack{
-       //     if(student.period == period){
-       //             VStack{
-       //                 Print(student)
-       //                 Text(student.name)
-       //                     .onTapGesture {
-       //                         driverIndex.names[0].faded.toggle()
-       //                     }
-       //                     .opacity(student.faded ? 0.2 : 1)
-       //                     .opacity(student.invisible ? 0 : 1)
-       //             }
-       //         }
-       //     }
-       // }
-        
+        Button("Select a random person"){
+            selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
+        }
     }
+    
     func currentPeriodIndices() -> Array<Int> {
         let allStudents = driverIndex.names
         var currentPeriodIndices = [Int]()
         for i in 0..<allStudents.count {
             if(allStudents[i].period == period)
             {
-               currentPeriodIndices.append(i)
+                currentPeriodIndices.append(i)
             }
         }
         return currentPeriodIndices
     }
-    
-    
-    
     func selectRandomName(amountOfPeople: Int){
+        var numberOfPeopleGrayedOut = 0
         var i = 0
-        
         for j in 0..<currentPeriodIndices().count {
             if(driverIndex.names[currentPeriodIndices()[j]].faded == true){
                 driverIndex.names[currentPeriodIndices()[j]].invisible = true
-                i += 1
+                numberOfPeopleGrayedOut += 1
+                
             }
         }
-        
         func nextIteration() {
-            if i < amountOfPeople {
+            if i < amountOfPeople - numberOfPeopleGrayedOut {
                 let randomStudent = Int.random(in: 0..<currentPeriodIndices().count)
-                
                 if driverIndex.names[currentPeriodIndices()[randomStudent]].invisible == false {
-                    driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
-                    print("yeah")
-                    i += 1
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    nextIteration()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + exponentiallyDisappear(lengthAmount: 30.0, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut, index: i)) {
+                        i += 1
+                        driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
+                            nextIteration()
                     }
                 }
                 else {
                     nextIteration()
-                    print("a")
                 }
             }
             else {
                 for i in 0..<currentPeriodIndices().count {
                     if(driverIndex.names[currentPeriodIndices()[i]].invisible == false){
-                        print(driverIndex.names[currentPeriodIndices()[i]].name, " won")
+                        driverIndex.names[currentPeriodIndices()[i]].invisible = true
+                        winnerText = Text(driverIndex.names[currentPeriodIndices()[i]].name)
+                        winnerShown = true
                     }
                 }
             }
         }
         nextIteration()
         
-       
-           
-
     }
     
-    
-    struct CustomTextView: View {
-        
-        let text: String
-        var student: Name
-        var body: some View {
-            Text(text)
-               
-        }
+    func exponentiallyDisappear(lengthAmount: Double, amountOfPeople: Int, index: Int) -> Double{
+        return (pow(pow(lengthAmount, Double(1.0/(Double(amountOfPeople) + 1.0))), (Double(index) + 2))) - (pow(pow(lengthAmount, Double(1.0/(Double(amountOfPeople) + 1.0))), (Double(index) +  1)))
     }
-
+    func linearlyDisappear(lengthAmount: Double, amountOfPeople: Int) -> Double{
+        return lengthAmount/Double(amountOfPeople + 1)
+    }
     
 }
-    
-extension MutableCollection {
-  mutating func updateEach(_ update: (inout Element) -> Void) {
-    for i in indices {
-      update(&self[i])
-    }
-  }
-}
-    
-extension View {
-    func Print(_ vars: Any...) -> some View {
-        for v in vars { print(v) }
-        return EmptyView()
-    }
-}
-
 
 

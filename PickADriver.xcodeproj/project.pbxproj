@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F99965427B433CA0016D33A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F99965327B433CA0016D33A /* SettingsView.swift */; };
 		3F9E9D9827AAE70200EF779B /* PickADriverApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9E9D9727AAE70200EF779B /* PickADriverApp.swift */; };
 		3F9E9D9A27AAE70200EF779B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9E9D9927AAE70200EF779B /* ContentView.swift */; };
 		3F9E9D9C27AAE70700EF779B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F9E9D9B27AAE70700EF779B /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F99965327B433CA0016D33A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3F9E9D9427AAE70200EF779B /* PickADriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PickADriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F9E9D9727AAE70200EF779B /* PickADriverApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickADriverApp.swift; sourceTree = "<group>"; };
 		3F9E9D9927AAE70200EF779B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 			children = (
 				3F9E9D9727AAE70200EF779B /* PickADriverApp.swift */,
 				3F9E9D9927AAE70200EF779B /* ContentView.swift */,
+				3F99965327B433CA0016D33A /* SettingsView.swift */,
 				3F9E9DA627AAE74F00EF779B /* DriverIndex.swift */,
 				3F9E9DA827AAE75A00EF779B /* EditPeriodsView.swift */,
 				3F9E9DAA27AAE76300EF779B /* EditStudentsView.swift */,
@@ -154,6 +157,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F9E9DAB27AAE76300EF779B /* EditStudentsView.swift in Sources */,
+				3F99965427B433CA0016D33A /* SettingsView.swift in Sources */,
 				3F9E9D9A27AAE70200EF779B /* ContentView.swift in Sources */,
 				3F9E9DAD27AAE76A00EF779B /* AddView.swift in Sources */,
 				3F9E9D9827AAE70200EF779B /* PickADriverApp.swift in Sources */,

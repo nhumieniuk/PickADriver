@@ -18,6 +18,7 @@ struct EditPeriodsView: View {
                         Text("Period \(period)")
                     }
                 }
+                
                 Button("CLEAR ALL")
                 {
                     showingPaymentAlert = true
@@ -27,7 +28,7 @@ struct EditPeriodsView: View {
                     Alert(title: Text("Are you sure you want to delete ALL names?"), message: Text("This action cannot be undone."), primaryButton: .destructive(Text("Delete Names"), action: {driverIndex.names.removeAll()}), secondaryButton: .cancel(Text("Cancel")))
                 }
             }
-        
     }
+    
 }
 
