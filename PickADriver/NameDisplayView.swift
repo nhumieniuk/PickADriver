@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NameDisplayView: View {
     @ObservedObject var driverIndex: DriverIndex
+    @ObservedObject var settings: Settings
     @State private var winnerText = Text("")
     @State private var winnerShown = false
     let gridItemLayout: [GridItem]
@@ -18,6 +19,8 @@ struct NameDisplayView: View {
             VStack{
                 winnerText
                     .foregroundColor(Color(UIColor.label))
+                    .font(.largeTitle)
+                    .multilineTextAlignment(.center)
                 Button("reset")
                 {
                     for i in 0..<currentPeriodIndices().count {
@@ -26,11 +29,10 @@ struct NameDisplayView: View {
                     winnerShown = false
                     winnerText = Text("")
                 }
+                .foregroundColor(Color(UIColor.systemBlue))
                 .opacity(winnerShown ? 1 : 0)
-                
             }
-            .font(.largeTitle)
-            .multilineTextAlignment(.center)
+            
             LazyVGrid(columns: gridItemLayout, spacing: 8){
                 ForEach(driverIndex.names.indices, id: \.self) { index in
                     if(driverIndex.names[index].period == period){
@@ -50,7 +52,9 @@ struct NameDisplayView: View {
             }
         }
         Button("Select a random person"){
-            selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
+            if(currentPeriodIndices().count != 0){
+                selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
+            }
         }
     }
     
@@ -79,11 +83,23 @@ struct NameDisplayView: View {
             if i < amountOfPeople - numberOfPeopleGrayedOut {
                 let randomStudent = Int.random(in: 0..<currentPeriodIndices().count)
                 if driverIndex.names[currentPeriodIndices()[randomStudent]].invisible == false {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + exponentiallyDisappear(lengthAmount: 30.0, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut, index: i)) {
-                        i += 1
-                        driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
+                    
+                    if(settings.exponentialFormula){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + exponentiallyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut, index: i)) {
+                            i += 1
+                            driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
                             nextIteration()
+                        }
                     }
+                    else{
+                        DispatchQueue.main.asyncAfter(deadline: .now() + linearlyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut)) {
+                            i += 1
+                            driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
+                            nextIteration()
+                        }
+                    }
+                    
+                    
                 }
                 else {
                     nextIteration()

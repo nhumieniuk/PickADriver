@@ -10,14 +10,14 @@ import SwiftUI
 struct ContentView: View {
     let periods = [1, 2, 3, 4, 5, 6, 7, 8]
     @ObservedObject var driverIndex: DriverIndex
+    @ObservedObject var settings: Settings
     var body: some View {
         NavigationView {
             VStack {
                 ForEach(periods, id: \.self) { period in
-                    NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period)), period: period)) {
+                    NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period)), period: period)) {
                         
                         Text("Period \(period)")
-                            
                             .frame(minWidth: UIScreen.main.bounds.width / 1.1, minHeight: UIScreen.main.bounds.height/30, alignment: .leading)
                             .padding()
                             .background(Color(UIColor.secondarySystemBackground))
@@ -36,7 +36,7 @@ struct ContentView: View {
                             .foregroundColor(Color(UIColor.label))
                             .cornerRadius(10)
                     }
-                    NavigationLink(destination: SettingsView()){
+                    NavigationLink(destination: SettingsView(settings: settings, lengthAmount: String(settings.lengthAmount))){
                         Image(systemName: "gear")
                             .resizable()
                             .frame(minWidth: UIScreen.main.bounds.height/30, maxWidth: UIScreen.main.bounds.height/30, minHeight: UIScreen.main.bounds.height/30, maxHeight: UIScreen.main.bounds.height/30)
@@ -54,6 +54,7 @@ struct ContentView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .foregroundColor(Color(UIColor.label))
+        .preferredColorScheme(settings.darkMode ? .dark : .light)
     }
     
     func returnColumnsNeeded(period: Int) -> Int
