@@ -28,7 +28,7 @@ struct ContentView: View {
                     .simultaneousGesture(TapGesture().onEnded {reset(period: period)})
                     }
                 HStack{
-                    NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex)){
+                    NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex, settings: settings)){
                         Text("Edit Names")
                             .frame(minWidth: UIScreen.main.bounds.width / 1.35, minHeight: UIScreen.main.bounds.height/30, alignment: .center)
                             .padding()

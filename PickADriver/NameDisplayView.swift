@@ -76,7 +76,6 @@ struct NameDisplayView: View {
             if(driverIndex.names[currentPeriodIndices()[j]].faded == true){
                 driverIndex.names[currentPeriodIndices()[j]].invisible = true
                 numberOfPeopleGrayedOut += 1
-                
             }
         }
         func nextIteration() {

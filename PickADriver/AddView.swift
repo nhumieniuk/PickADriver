@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddView: View {
     @ObservedObject var driverIndex: DriverIndex
+    @ObservedObject var settings: Settings
     @State private var name = ""
     let period: Int
     @Environment(\.presentationMode) var presentationMode
@@ -28,6 +29,7 @@ struct AddView: View {
                 presentationMode.wrappedValue.dismiss()
             })
         }
+        .preferredColorScheme(settings.darkMode ? .dark : .light)
     }
 }
 

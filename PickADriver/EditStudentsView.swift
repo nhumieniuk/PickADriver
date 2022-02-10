@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EditStudentsView: View {
     @ObservedObject var driverIndex: DriverIndex
+    @ObservedObject var settings: Settings
     @State var showingPaymentAlert = false
     @State private var showingAddView = false
     @State private var i = 0
@@ -31,7 +32,7 @@ struct EditStudentsView: View {
                 Alert(title: Text("Are you sure you want to delete all names in this period?"), message: Text("This action cannot be undone."), primaryButton: .destructive(Text("Delete Names"), action: {deleteNames()}), secondaryButton: .cancel(Text("Cancel")))
             }
         }
-        .sheet(isPresented: $showingAddView, content: {  AddView(driverIndex: driverIndex, period: period)
+        .sheet(isPresented: $showingAddView, content: {  AddView(driverIndex: driverIndex, settings: settings, period: period)
         })
         .navigationBarItems(leading: EditButton(), trailing: Button(action:{
                                                                         showingAddView = true}) {  Image(systemName: "plus")  })
