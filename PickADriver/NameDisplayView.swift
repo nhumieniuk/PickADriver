@@ -12,6 +12,7 @@ struct NameDisplayView: View {
     @ObservedObject var settings: Settings
     @State private var winnerText = Text("")
     @State private var winnerShown = false
+    @State private var selectingButton = false
     let gridItemLayout: [GridItem]
     let period: Int
     var body: some View {
@@ -28,6 +29,7 @@ struct NameDisplayView: View {
                     }
                     winnerShown = false
                     winnerText = Text("")
+                    selectingButton = false
                 }
                 .foregroundColor(Color(UIColor.systemBlue))
                 .opacity(winnerShown ? 1 : 0)
@@ -52,7 +54,7 @@ struct NameDisplayView: View {
             }
         }
         Button("Select a random person"){
-            if(currentPeriodIndices().count != 0){
+            if(currentPeriodIndices().count != 0 && selectingButton == false){
                 selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
             }
         }
@@ -110,6 +112,7 @@ struct NameDisplayView: View {
                         driverIndex.names[currentPeriodIndices()[i]].invisible = true
                         winnerText = Text(driverIndex.names[currentPeriodIndices()[i]].name)
                         winnerShown = true
+                        selectingButton = false
                     }
                 }
             }
