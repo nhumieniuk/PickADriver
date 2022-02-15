@@ -23,6 +23,9 @@ struct EditStudentsView: View {
             }
             .onDelete(perform: { indexSet in
                         driverIndex.names.remove(atOffsets: indexSet)  })
+            .onMove(perform: { indexSet, newOffset in
+                driverIndex.names.move(fromOffsets: indexSet, toOffset:  newOffset)
+            })
             Button("CLEAR ALL")
             {
                 showingPaymentAlert = true
