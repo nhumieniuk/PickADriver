@@ -58,6 +58,9 @@ struct NameDisplayView: View {
                 selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
             }
         }
+       // Button("add"){
+       //     driverIndex.names.append(Name(period: 3, id: UUID(), name: //"asdasdasdasdasd"))
+       // }
     }
     
     func currentPeriodIndices() -> Array<Int> {

@@ -10,6 +10,8 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var settings: Settings
     @State var lengthAmount: String
+    @State private var showValidToast = false
+    @State private var showInvalidToast = false
     var body: some View {
         Form{
             Section(header: Text("Duration"), footer: Text("Changing this value will change the duration of the selection process."))
@@ -19,6 +21,12 @@ struct SettingsView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 Button("Save")
                 {
+                    if(Double(lengthAmount) ?? 30.0 == 30.0 && Double(lengthAmount) != 30.0){
+                        showInvalidToast = true
+                    }
+                    else{
+                        showValidToast = true
+                    }
                     settings.lengthAmount = Double(lengthAmount) ?? 30.0
                     print(settings.lengthAmount)
                 }
@@ -34,6 +42,12 @@ struct SettingsView: View {
             {
                 Toggle(isOn: $settings.darkMode, label: {Text("Dark mode")})
             }
+        }
+        .toast(isPresenting: $showValidToast){
+            AlertToast(displayMode: .banner(.slide), type: .complete(Color(UIColor.systemGreen)), title: "Length has been successfully set to \(lengthAmount)")
+        }
+        .toast(isPresenting: $showInvalidToast){
+            AlertToast(displayMode: .banner(.slide), type: .error(Color(UIColor.systemRed)), title: "\(lengthAmount) is not a valid length. Value set to 30.0.")
         }
     }
 }

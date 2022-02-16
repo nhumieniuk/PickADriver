@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F34679127BD5C0B00CD6D6F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F34678E27BD5C0B00CD6D6F /* BlurView.swift */; };
+		3F34679227BD5C0B00CD6D6F /* AlertToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F34678F27BD5C0B00CD6D6F /* AlertToast.swift */; };
+		3F34679327BD5C0B00CD6D6F /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F34679027BD5C0B00CD6D6F /* ActivityIndicator.swift */; };
 		3F99965427B433CA0016D33A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F99965327B433CA0016D33A /* SettingsView.swift */; };
 		3F9E9D9827AAE70200EF779B /* PickADriverApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9E9D9727AAE70200EF779B /* PickADriverApp.swift */; };
 		3F9E9D9A27AAE70200EF779B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9E9D9927AAE70200EF779B /* ContentView.swift */; };
@@ -20,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F34678E27BD5C0B00CD6D6F /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		3F34678F27BD5C0B00CD6D6F /* AlertToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertToast.swift; sourceTree = "<group>"; };
+		3F34679027BD5C0B00CD6D6F /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		3F99965327B433CA0016D33A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3F9E9D9427AAE70200EF779B /* PickADriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PickADriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F9E9D9727AAE70200EF779B /* PickADriverApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickADriverApp.swift; sourceTree = "<group>"; };
@@ -45,9 +51,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F34678D27BD5C0B00CD6D6F /* AlertToast */ = {
+			isa = PBXGroup;
+			children = (
+				3F34678E27BD5C0B00CD6D6F /* BlurView.swift */,
+				3F34678F27BD5C0B00CD6D6F /* AlertToast.swift */,
+				3F34679027BD5C0B00CD6D6F /* ActivityIndicator.swift */,
+			);
+			name = AlertToast;
+			path = "../../Downloads/AlertToast-master 2/Sources/AlertToast";
+			sourceTree = "<group>";
+		};
 		3F9E9D8B27AAE70200EF779B = {
 			isa = PBXGroup;
 			children = (
+				3F34678D27BD5C0B00CD6D6F /* AlertToast */,
 				3F9E9D9627AAE70200EF779B /* PickADriver */,
 				3F9E9D9527AAE70200EF779B /* Products */,
 			);
@@ -161,6 +179,9 @@
 				3F9E9D9A27AAE70200EF779B /* ContentView.swift in Sources */,
 				3F9E9DAD27AAE76A00EF779B /* AddView.swift in Sources */,
 				3F9E9D9827AAE70200EF779B /* PickADriverApp.swift in Sources */,
+				3F34679327BD5C0B00CD6D6F /* ActivityIndicator.swift in Sources */,
+				3F34679127BD5C0B00CD6D6F /* BlurView.swift in Sources */,
+				3F34679227BD5C0B00CD6D6F /* AlertToast.swift in Sources */,
 				3F9E9DA727AAE74F00EF779B /* DriverIndex.swift in Sources */,
 				3F9E9DA927AAE75A00EF779B /* EditPeriodsView.swift in Sources */,
 				3F9E9DAF27AAE77300EF779B /* NameDisplayView.swift in Sources */,
