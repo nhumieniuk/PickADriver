@@ -56,6 +56,7 @@ struct NameDisplayView: View {
         Button("Select a random person"){
             if(currentPeriodIndices().count != 0 && selectingButton == false){
                 selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
+                selectingButton = true
             }
         }
        // Button("add"){
