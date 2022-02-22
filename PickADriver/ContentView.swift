@@ -16,46 +16,48 @@ struct ContentView: View {
             VStack {
                 ForEach(periods, id: \.self) { period in
                     NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period)), period: period)) {
-                        
                         Text("Period \(period)")
-                            .frame(minWidth: UIScreen.main.bounds.width / 1.1, minHeight: UIScreen.main.bounds.height/30, alignment: .leading)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                             .padding()
                             .background(Color(UIColor.secondarySystemBackground))
                             .foregroundColor(Color(UIColor.label))
-                            .cornerRadius(10)
-                            .buttonStyle(PlainButtonStyle())
+                            .cornerRadius(20)
+                            .minimumScaleFactor(0.5)
                     }
                     .simultaneousGesture(TapGesture().onEnded {reset(period: period)})
                     }
                 HStack{
                     NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex, settings: settings)){
                         Text("Edit Names")
-                            .frame(minWidth: UIScreen.main.bounds.width / 1.35, minHeight: UIScreen.main.bounds.height/30, alignment: .center)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .padding()
                             .background(Color(UIColor.secondarySystemBackground))
                             .foregroundColor(Color(UIColor.label))
-                            .cornerRadius(10)
+                            .cornerRadius(20)
+                            .minimumScaleFactor(0.5)
                     }
                     NavigationLink(destination: SettingsView(settings: settings, lengthAmount: String(settings.lengthAmount))){
                         Image(systemName: "gear")
                             .resizable()
-                            .frame(minWidth: UIScreen.main.bounds.height/30, maxWidth: UIScreen.main.bounds.height/30, minHeight: UIScreen.main.bounds.height/30, maxHeight: UIScreen.main.bounds.height/30)
-                            .scaledToFit()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .padding()
                             .background(Color(UIColor.secondarySystemBackground))
                             .foregroundColor(Color(UIColor.label))
-                            .cornerRadius(10)
+                            .cornerRadius(20)
+                            .scaledToFill()
                     }
+                    .aspectRatio(1, contentMode: .fit)
                 }
                 
             }
+            .frame(maxHeight: .infinity, alignment: .topLeading)
             .navigationTitle("Pick a Driver")
-            Spacer()
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .foregroundColor(Color(UIColor.label))
         .preferredColorScheme(settings.darkMode ? .dark : .light)
     }
+    
     
     func returnColumnsNeeded(period: Int) -> Int
     {
