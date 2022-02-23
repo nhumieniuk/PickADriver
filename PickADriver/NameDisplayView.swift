@@ -54,14 +54,15 @@ struct NameDisplayView: View {
             }
         }
         Button("Select a random person"){
+            reset(period: period)
             if(currentPeriodIndices().count != 0 && selectingButton == false){
                 selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
                 selectingButton = true
             }
         }
-       // Button("add"){
-       //     driverIndex.names.append(Name(period: 3, id: UUID(), name: //"asdasdasdasdasd"))
-       // }
+        // Button("add"){
+        //     driverIndex.names.append(Name(period: 3, id: UUID(), name: //"asdasdasdasdasd"))
+        // }
     }
     
     func currentPeriodIndices() -> Array<Int> {
@@ -85,44 +86,68 @@ struct NameDisplayView: View {
             }
         }
         func nextIteration() {
-            if i < amountOfPeople - numberOfPeopleGrayedOut {
-                let randomStudent = Int.random(in: 0..<currentPeriodIndices().count)
-                if driverIndex.names[currentPeriodIndices()[randomStudent]].invisible == false {
-                    
-                    if(settings.exponentialFormula){
-                        DispatchQueue.main.asyncAfter(deadline: .now() + exponentiallyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut, index: i)) {
-                            i += 1
-                            driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
-                            nextIteration()
+            if(checkIfReset(index: i) == false){
+                if i < amountOfPeople - numberOfPeopleGrayedOut {
+                    let randomStudent = Int.random(in: 0..<currentPeriodIndices().count)
+                    if(driverIndex.names[currentPeriodIndices()[randomStudent]].invisible == false && checkIfReset(index: i) == false){
+                        if(settings.exponentialFormula){
+                            DispatchQueue.main.asyncAfter(deadline: .now() + exponentiallyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut, index: i)) {
+                                i += 1
+                                driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
+                                nextIteration()
+                            }
+                        }
+                        else{
+                            DispatchQueue.main.asyncAfter(deadline: .now() + linearlyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut)) {
+                                i += 1
+                                driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
+                                nextIteration()
+                            }
                         }
                     }
-                    else{
-                        DispatchQueue.main.asyncAfter(deadline: .now() + linearlyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut)) {
-                            i += 1
-                            driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
-                            nextIteration()
-                        }
+                    else {
+                        nextIteration()
                     }
-                    
-                    
                 }
                 else {
-                    nextIteration()
-                }
-            }
-            else {
-                for i in 0..<currentPeriodIndices().count {
-                    if(driverIndex.names[currentPeriodIndices()[i]].invisible == false){
-                        driverIndex.names[currentPeriodIndices()[i]].invisible = true
-                        winnerText = Text(driverIndex.names[currentPeriodIndices()[i]].name)
-                        winnerShown = true
-                        selectingButton = false
+                    for i in 0..<currentPeriodIndices().count {
+                        if(driverIndex.names[currentPeriodIndices()[i]].invisible == false && checkIfReset(index: i) == false){
+                            driverIndex.names[currentPeriodIndices()[i]].invisible = true
+                            winnerText = Text(driverIndex.names[currentPeriodIndices()[i]].name)
+                            winnerShown = true
+                            selectingButton = false
+                        }
                     }
                 }
             }
         }
         nextIteration()
-        
+    }
+    func checkIfReset(index: Int) -> Bool{
+        var invisiblePeople = 0
+        for i in 0..<currentPeriodIndices().count {
+            if(driverIndex.names[currentPeriodIndices()[i]].invisible == true){
+                invisiblePeople += 1
+            }
+        }
+        if(index == 0 || index == 1){
+            if invisiblePeople == 1 && index == 0 {
+                return true
+            }
+            return false
+        }
+        if(invisiblePeople == 1){
+            reset(period: period)
+            return true
+        }
+        return invisiblePeople == 0
+    }
+
+    func reset(period: Int){
+        for i in 0..<currentPeriodIndices().count {
+            driverIndex.names[currentPeriodIndices()[i]].invisible = false
+        }
+        winnerShown = false
     }
     
     func exponentiallyDisappear(lengthAmount: Double, amountOfPeople: Int, index: Int) -> Double{
