@@ -32,8 +32,8 @@ struct NameDisplayView: View {
                     selectingButton = false
                 }
                 .foregroundColor(Color(UIColor.systemBlue))
-                .opacity(winnerShown ? 1 : 0)
             }
+            .opacity(winnerShown ? 1 : 0)
             
             LazyVGrid(columns: gridItemLayout, spacing: 8){
                 ForEach(driverIndex.names.indices, id: \.self) { index in
@@ -54,8 +54,8 @@ struct NameDisplayView: View {
             }
         }
         Button("Select a random person"){
-            reset(period: period)
             if(currentPeriodIndices().count != 0 && selectingButton == false){
+                reset(period: period)
                 selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
                 selectingButton = true
             }
