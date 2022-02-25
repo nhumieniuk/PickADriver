@@ -32,7 +32,7 @@ struct EditStudentsView: View {
             }
             .foregroundColor(Color.red)
             .alert(isPresented: $showingPaymentAlert) {
-                Alert(title: Text("Are you sure you want to delete all names in this period?"), message: Text("This action cannot be undone."), primaryButton: .destructive(Text("Delete Names"), action: {deleteNames()}), secondaryButton: .cancel(Text("Cancel")))
+                Alert(title: Text("Are you sure you want to clear all names in this period?"), message: Text("This action cannot be undone."), primaryButton: .destructive(Text("Clear Names"), action: {deleteNames()}), secondaryButton: .cancel(Text("Cancel")))
             }
         }
         .sheet(isPresented: $showingAddView, content: {  AddView(driverIndex: driverIndex, settings: settings, period: period)
