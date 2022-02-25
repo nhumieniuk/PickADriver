@@ -62,10 +62,7 @@ struct NameDisplayView: View {
                 selectingButton = true
             }
         }
-        //.padding()
-         Button("add"){
-             driverIndex.names.append(Name(period: 3, id: UUID(), name: "asdasdasdasdasd"))
-         }
+        .padding()
     }
     
     func currentPeriodIndices() -> Array<Int> {
