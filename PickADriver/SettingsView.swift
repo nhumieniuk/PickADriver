@@ -32,7 +32,10 @@ struct SettingsView: View {
                 }
                 .foregroundColor(Color.green)
                 .font(Font.headline.weight(.bold))
-                 
+            }
+            Section(header: Text("Minimum amount of columns"), footer: Text("Change this value to make use of horizontal space."))
+            {
+                Stepper(plural(), value: $settings.minNumberOfColumns, in: 1...10)
             }
             Section(header: Text("Exponential Formula"), footer: Text("Selecting this will make the names disappear exponentially, if turned off it will disappear linearly."))
             {
@@ -47,8 +50,15 @@ struct SettingsView: View {
             AlertToast(displayMode: .banner(.slide), type: .complete(Color(UIColor.systemGreen)), title: "Length has been successfully set to \(lengthAmount)")
         }
         .toast(isPresenting: $showInvalidToast){
-            AlertToast(displayMode: .banner(.slide), type: .error(Color(UIColor.systemRed)), title: "\(lengthAmount) is not a valid length. Value set to 30.0.")
+            AlertToast(displayMode: .banner(.slide), type: .error(Color(UIColor.systemYellow)), title: "\(lengthAmount) is not a valid length. Value set to 30.0.")
         }
+    }
+    func plural() -> String{
+        var text = "\(settings.minNumberOfColumns) Columns"
+        if settings.minNumberOfColumns == 1{
+            text = "1 Column"
+        }
+        return text
     }
 }
 
@@ -77,11 +87,19 @@ class Settings: ObservableObject{
         }
         }
     }
-    
+    @Published var minNumberOfColumns: Int {
+        didSet{
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(minNumberOfColumns) {
+            UserDefaults.standard.set(encoded, forKey: "minNumberOfColumns")
+        }
+        }
+    }
     init(){
         self.darkMode = true
         self.lengthAmount = 30.0
         self.exponentialFormula = false
+        self.minNumberOfColumns = 1
         if let darkMode = UserDefaults.standard.data(forKey: "darkMode") {
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode(Bool.self, from: darkMode) {
@@ -92,6 +110,12 @@ class Settings: ObservableObject{
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode(Bool.self, from: exponentialFormula) {
                 self.exponentialFormula = decoded
+                }
+            }
+        if let minNumberOfColumns = UserDefaults.standard.data(forKey: "minNumberOfColumns") {
+            let decoder = JSONDecoder()
+            if let decoded = try? decoder.decode(Int.self, from: minNumberOfColumns) {
+                self.minNumberOfColumns = decoded
                 }
             }
         if let lengthAmount = UserDefaults.standard.data(forKey: "length") {

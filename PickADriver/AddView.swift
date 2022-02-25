@@ -16,15 +16,22 @@ struct AddView: View {
     var body: some View {
         NavigationView {
             Form {
-                TextField("Name", text: $name)
+                Section(footer: Text("Add multiple names by seperating them with a comma.")){
+                    TextField("Name(s)", text: $name)
+                }
             }
             .navigationBarTitle("Add New Student")
             .navigationBarItems(trailing: Button("Save") {
-                let finalName = Name(period: period, id: UUID(), name: name)
-                print(period)
-                print(name)
-                if finalName.name != "" {
-                    driverIndex.names.append(finalName)
+                var names = name.components(separatedBy: String(","))
+                for index in names.indices {
+                    if(names[index].prefix(1) == " "){
+                        names[index].removeFirst()
+                    }
+                    let name = Name(period: period, id: UUID(), name: names[index])
+                    if names[index] != "" {
+                        driverIndex.names.append(name)
+                        print("added \(name.name)")
+                    }
                 }
                 presentationMode.wrappedValue.dismiss()
             })

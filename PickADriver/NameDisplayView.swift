@@ -16,6 +16,7 @@ struct NameDisplayView: View {
     let gridItemLayout: [GridItem]
     let period: Int
     var body: some View {
+        Spacer()
         ZStack{
             VStack{
                 winnerText
@@ -53,6 +54,7 @@ struct NameDisplayView: View {
                 }
             }
         }
+        Spacer()
         Button("Select a random person"){
             if(currentPeriodIndices().count != 0 && selectingButton == false){
                 reset(period: period)
@@ -60,9 +62,10 @@ struct NameDisplayView: View {
                 selectingButton = true
             }
         }
-        // Button("add"){
-        //     driverIndex.names.append(Name(period: 3, id: UUID(), name: //"asdasdasdasdasd"))
-        // }
+        //.padding()
+         Button("add"){
+             driverIndex.names.append(Name(period: 3, id: UUID(), name: "asdasdasdasdasd"))
+         }
     }
     
     func currentPeriodIndices() -> Array<Int> {
