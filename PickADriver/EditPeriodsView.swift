@@ -26,7 +26,7 @@ struct EditPeriodsView: View {
                 }
                 .foregroundColor(Color.red)
                 .alert(isPresented: $showingPaymentAlert) {
-                    Alert(title: Text("Are you sure you want to clear every period?"), message: Text("This action cannot be undone."), primaryButton: .destructive(Text("Delete All"), action: {driverIndex.names.removeAll()}), secondaryButton: .cancel(Text("Cancel")))
+                    Alert(title: Text("Are you sure you want to clear every period?"), message: Text("This action cannot be undone."), primaryButton: .destructive(Text("Clear All"), action: {driverIndex.names.removeAll()}), secondaryButton: .cancel(Text("Cancel")))
                 }
             }
     }

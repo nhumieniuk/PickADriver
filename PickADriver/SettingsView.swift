@@ -37,9 +37,9 @@ struct SettingsView: View {
             {
                 Stepper(plural(), value: $settings.minNumberOfColumns, in: 1...10)
             }
-            Section(header: Text("Exponential Formula"), footer: Text("Selecting this will make the names disappear exponentially, if turned off it will disappear linearly."))
+            Section(header: Text("Suspense Mode"), footer: Text("This option will make the names disappear fast initally, but slow down as it gets to the final few names."))
             {
-                Toggle(isOn: $settings.exponentialFormula, label: {Text("Exponential Formula")})
+                Toggle(isOn: $settings.exponentialFormula, label: {Text("Suspense Mode")})
             }
             Section(header: Text("Dark Mode"))
             {
@@ -47,10 +47,10 @@ struct SettingsView: View {
             }
         }
         .toast(isPresenting: $showValidToast){
-            AlertToast(displayMode: .banner(.slide), type: .complete(Color(UIColor.systemGreen)), title: "Length has been successfully set to \(lengthAmount)")
+            AlertToast(displayMode: .banner(.slide), type: .complete(Color(UIColor.systemGreen)), title: "Success!", subTitle: "Length has been successfully set to \(lengthAmount)")
         }
         .toast(isPresenting: $showInvalidToast){
-            AlertToast(displayMode: .banner(.slide), type: .error(Color(UIColor.systemYellow)), title: "\(lengthAmount) is not a valid length. Value set to 30.0.")
+            AlertToast(displayMode: .banner(.slide), type: .error(Color(UIColor.systemRed)), title: "\(lengthAmount) is not a valid length.", subTitle: "Value set to default (30.0)")
         }
     }
     func plural() -> String{

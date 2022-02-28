@@ -18,11 +18,11 @@ struct ContentView: View {
                     NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period)), period: period)) {
                         Text("Period \(period)")
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                            .padding()
+                            .padding(.vertical, 8)
+                            .padding(.horizontal)
                             .background(Color(UIColor.secondarySystemBackground))
                             .foregroundColor(Color(UIColor.label))
                             .cornerRadius(20)
-                            .minimumScaleFactor(0.5)
                     }
                     .simultaneousGesture(TapGesture().onEnded {reset(period: period)})
                     }
@@ -30,21 +30,19 @@ struct ContentView: View {
                     NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex, settings: settings)){
                         Text("Edit Names")
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .padding()
                             .background(Color(UIColor.secondarySystemBackground))
                             .foregroundColor(Color(UIColor.label))
                             .cornerRadius(20)
-                            .minimumScaleFactor(0.5)
                     }
                     NavigationLink(destination: SettingsView(settings: settings, lengthAmount: String(settings.lengthAmount))){
                         Image(systemName: "gear")
                             .resizable()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .padding()
-                            .background(Color(UIColor.secondarySystemBackground))
+                            .padding(UIScreen.main.bounds.size.height / 12.6 / 5)
                             .foregroundColor(Color(UIColor.label))
-                            .cornerRadius(20)
                     }
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(20)
                     .aspectRatio(1, contentMode: .fit)
                 }
                 
@@ -54,6 +52,7 @@ struct ContentView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .foregroundColor(Color(UIColor.label))
+        .minimumScaleFactor(0.5)
         .preferredColorScheme(settings.darkMode ? .dark : .light)
     }
     
