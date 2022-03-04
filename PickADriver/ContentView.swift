@@ -40,7 +40,7 @@ struct ContentView: View {
                             Image(systemName: "gear")
                                 .resizable()
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .padding(UIScreen.main.bounds.size.height / 12.6 / 5)
+                                .padding(UIScreen.main.nativeBounds.size.width / 12.6 / 5)
                                 .foregroundColor(Color(UIColor.label))
                         }
                         .background(Color(UIColor.secondarySystemBackground))
@@ -90,7 +90,7 @@ struct ContentView: View {
                             Image(systemName: "gear")
                                 .resizable()
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .padding(UIScreen.main.bounds.size.height / 12.6 / 5)
+                                .padding(UIScreen.main.nativeBounds.size.width / 12.6 / 5)
                                 .foregroundColor(Color(UIColor.label))
                         }
                         .background(Color(UIColor.secondarySystemBackground))
@@ -98,7 +98,7 @@ struct ContentView: View {
                         .aspectRatio(1, contentMode: .fit)
                     }
                 }
-                .frame(maxHeight: .infinity, alignment: .topLeading)
+                .frame(maxHeight: UIScreen.main.bounds.size.height, alignment: .topLeading)
                 .navigationBarHidden(verticalSizeClass == .compact)
                 .opacity(verticalSizeClass == .compact ? 1 : 0)
             }
