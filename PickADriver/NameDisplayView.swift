@@ -56,10 +56,20 @@ struct NameDisplayView: View {
         }
         Spacer()
         Button("Select a random person"){
-            if(currentPeriodIndices().count != 0 && selectingButton == false){
-                reset(period: period)
-                selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
-                selectingButton = true
+            var numberOfPeopleGrayedOut = 0
+            for i in 0..<currentPeriodIndices().count {
+                if(driverIndex.names[currentPeriodIndices()[i]].faded == true){
+                    numberOfPeopleGrayedOut += 1
+            }
+            }
+            if(currentPeriodIndices().count - numberOfPeopleGrayedOut != 0 && selectingButton == false){
+                    reset(period: period)
+                    selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
+                    selectingButton = true
+            }
+            if(currentPeriodIndices().count - numberOfPeopleGrayedOut == 0)
+            {
+                print("cannot select empty list")
             }
         }
         .padding()
@@ -152,10 +162,15 @@ struct NameDisplayView: View {
     }
     
     func exponentiallyDisappear(lengthAmount: Double, amountOfPeople: Int, index: Int) -> Double{
-        return (pow(pow(lengthAmount, Double(1.0/(Double(amountOfPeople) + 1.0))), (Double(index) + 2))) - (pow(pow(lengthAmount, Double(1.0/(Double(amountOfPeople) + 1.0))), (Double(index) +  1)))
+        let amountOfPeople = Double(amountOfPeople)
+        let index = Double(index)
+        if(index == 0){
+            return 1.0
+        }
+        return pow(pow(lengthAmount, 1/amountOfPeople), index) - pow(pow(lengthAmount, 1/amountOfPeople), index - 1)
     }
     func linearlyDisappear(lengthAmount: Double, amountOfPeople: Int) -> Double{
-        return lengthAmount/Double(amountOfPeople + 1)
+        return lengthAmount/Double(amountOfPeople)
     }
     
 }
