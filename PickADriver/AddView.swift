@@ -21,20 +21,24 @@ struct AddView: View {
                 }
             }
             .navigationBarTitle("Add New Student")
-            .navigationBarItems(trailing: Button("Save") {
-                var names = name.components(separatedBy: String(","))
-                for index in names.indices {
-                    if(names[index].prefix(1) == " "){
-                        names[index].removeFirst()
+            .navigationBarItems(
+                leading: Button("Cancel") {
+                    presentationMode.wrappedValue.dismiss()
+                },
+                trailing: Button("Save") {
+                    var names = name.components(separatedBy: String(","))
+                    for index in names.indices {
+                        if(names[index].prefix(1) == " "){
+                            names[index].removeFirst()
+                        }
+                        let name = Name(period: period, id: UUID(), name: names[index])
+                        if names[index] != "" {
+                            driverIndex.names.append(name)
+                            print("added \(name.name)")
+                        }
                     }
-                    let name = Name(period: period, id: UUID(), name: names[index])
-                    if names[index] != "" {
-                        driverIndex.names.append(name)
-                        print("added \(name.name)")
-                    }
-                }
-                presentationMode.wrappedValue.dismiss()
-            })
+                    presentationMode.wrappedValue.dismiss()
+                })
         }
         .preferredColorScheme(settings.darkMode ? .dark : .light)
     }
