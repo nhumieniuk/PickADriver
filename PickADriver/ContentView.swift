@@ -119,6 +119,9 @@ struct ContentView: View {
         {
             return settings.minNumberOfColumns
         }
+        if(settings.minNumberOfColumns > periodIndices(period: period).count){
+            return periodIndices(period: period).count
+        }
         return amountOfColumns
     }
     func periodIndices(period: Int) -> Array<Int> {

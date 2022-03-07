@@ -63,6 +63,7 @@ struct NameDisplayView: View {
             }
         }
         .padding()
+        .opacity(selectingButton ? 0.5 : 1)
     }
     
     func currentPeriodIndices() -> Array<Int> {
