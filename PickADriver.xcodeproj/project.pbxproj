@@ -59,7 +59,7 @@
 				3F34679027BD5C0B00CD6D6F /* ActivityIndicator.swift */,
 			);
 			name = AlertToast;
-			path = "../../Downloads/AlertToast-master 2/Sources/AlertToast";
+			path = PickADriver/AlertToast;
 			sourceTree = "<group>";
 		};
 		3F9E9D8B27AAE70200EF779B = {
@@ -314,6 +314,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"PickADriver/Preview Content\"";
+				DEVELOPMENT_TEAM = SQT59VFJJ3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PickADriver/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -335,6 +336,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"PickADriver/Preview Content\"";
+				DEVELOPMENT_TEAM = SQT59VFJJ3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PickADriver/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
