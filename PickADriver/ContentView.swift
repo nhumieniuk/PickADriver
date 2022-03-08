@@ -29,7 +29,7 @@ struct ContentView: View {
                         .simultaneousGesture(TapGesture().onEnded {reset(period: period)})
                     }
                     HStack{
-                        NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex, settings: settings)){
+                        NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex)){
                             Text("Edit Names")
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(Color(UIColor.secondarySystemBackground))
@@ -79,7 +79,7 @@ struct ContentView: View {
                         }
                     }
                     HStack{
-                        NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex, settings: settings)){
+                        NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex)){
                             Text("Edit Names")
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(Color(UIColor.secondarySystemBackground))
@@ -106,7 +106,6 @@ struct ContentView: View {
             .navigationTitle("Pick a Driver")
             
         .foregroundColor(Color(UIColor.label))
-        .preferredColorScheme(settings.darkMode ? .dark : .light)
     }
         .navigationViewStyle(StackNavigationViewStyle())
     }

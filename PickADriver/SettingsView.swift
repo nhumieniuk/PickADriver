@@ -41,10 +41,6 @@ struct SettingsView: View {
             {
                 Toggle(isOn: $settings.exponentialFormula, label: {Text("Suspense Mode")})
             }
-            Section(header: Text("Dark Mode"))
-            {
-                Toggle(isOn: $settings.darkMode, label: {Text("Dark mode")})
-            }
         }
         .toast(isPresenting: $showValidToast){
             AlertToast(displayMode: .banner(.slide), type: .complete(Color(UIColor.systemGreen)), title: "Success!", subTitle: "Length has been successfully set to \(lengthAmount)")
@@ -63,14 +59,6 @@ struct SettingsView: View {
 }
 
 class Settings: ObservableObject{
-    @Published var darkMode: Bool {
-        didSet{
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(darkMode) {
-            UserDefaults.standard.set(encoded, forKey: "darkMode")
-        }
-        }
-    }
     @Published var lengthAmount: Double {
         didSet{
         let encoder = JSONEncoder()
@@ -96,16 +84,9 @@ class Settings: ObservableObject{
         }
     }
     init(){
-        self.darkMode = true
         self.lengthAmount = 30.0
         self.exponentialFormula = false
         self.minNumberOfColumns = 1
-        if let darkMode = UserDefaults.standard.data(forKey: "darkMode") {
-            let decoder = JSONDecoder()
-            if let decoded = try? decoder.decode(Bool.self, from: darkMode) {
-                self.darkMode = decoded
-                }
-            }
         if let exponentialFormula = UserDefaults.standard.data(forKey: "exponentialFormula") {
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode(Bool.self, from: exponentialFormula) {

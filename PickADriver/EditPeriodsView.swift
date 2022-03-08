@@ -10,12 +10,11 @@ import SwiftUI
 struct EditPeriodsView: View {
     @State var showingPaymentAlert = false
     @ObservedObject var driverIndex: DriverIndex
-    @ObservedObject var settings: Settings
     var body: some View {
         let periods = [1, 2, 3, 4, 5, 6, 7, 8]
             List{
                 ForEach(periods, id: \.self) { period in
-                    NavigationLink(destination: EditStudentsView(driverIndex: driverIndex, settings: settings, period: period)) {
+                    NavigationLink(destination: EditStudentsView(driverIndex: driverIndex, period: period)) {
                         Text("Period \(period)")
                     }
                 }
