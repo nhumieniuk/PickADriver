@@ -18,23 +18,27 @@ struct ContentView: View {
                 VStack{
                     ForEach(periods, id: \.self) { period in
                         NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period)), period: period)) {
-                            Text("Period \(period)")
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                                .padding(.vertical, 8)
-                                .padding(.horizontal)
+                            Capsule()
                                 .background(Color(UIColor.secondarySystemBackground))
-                                .foregroundColor(Color(UIColor.label))
+                                .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
                                 .cornerRadius(20)
+                                .overlay(Text("Period \(period)")
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding())
+                           
                         }
                         .simultaneousGesture(TapGesture().onEnded {reset(period: period)})
                     }
                     HStack{
                         NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex)){
-                            Text("Edit Names")
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            Capsule()
                                 .background(Color(UIColor.secondarySystemBackground))
-                                .foregroundColor(Color(UIColor.label))
+                                .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
                                 .cornerRadius(20)
+                                .overlay(Text("Edit Names")
+                                            .frame(maxWidth: .infinity)
+                                            .padding()
+                                            .lineLimit(2))
                         }
                         NavigationLink(destination: SettingsView(settings: settings, lengthAmount: String(settings.lengthAmount))){
                             Image(systemName: "gear")
@@ -50,6 +54,7 @@ struct ContentView: View {
                 }
                 .frame(maxHeight: .infinity, alignment: .topLeading)
                 .navigationTitle("Pick a Driver")
+                .padding(8)
                 .opacity(verticalSizeClass == .compact ? 0 : 1)
                 
                 VStack{
@@ -57,22 +62,22 @@ struct ContentView: View {
                         if(period % 2 == 1){
                         HStack{
                             NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period)), period: period)) {
-                                Text("Period \(period)")
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal)
+                                Capsule()
                                     .background(Color(UIColor.secondarySystemBackground))
-                                    .foregroundColor(Color(UIColor.label))
+                                    .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
                                     .cornerRadius(20)
+                                    .overlay(Text("Period \(period)")
+                                                .frame(maxWidth: .infinity)
+                                                .padding())
                                 }
                             NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period + 1)), period: period + 1)) {
-                                Text("Period \(period + 1)")
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal)
+                                Capsule()
                                     .background(Color(UIColor.secondarySystemBackground))
-                                    .foregroundColor(Color(UIColor.label))
+                                    .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
                                     .cornerRadius(20)
+                                    .overlay(Text("Period \(period + 1)")
+                                                .frame(maxWidth: .infinity)
+                                                .padding())
                                 }
 
                             }
@@ -80,11 +85,13 @@ struct ContentView: View {
                     }
                     HStack{
                         NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex)){
-                            Text("Edit Names")
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            Capsule()
                                 .background(Color(UIColor.secondarySystemBackground))
-                                .foregroundColor(Color(UIColor.label))
+                                .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
                                 .cornerRadius(20)
+                                .overlay(Text("Edit Names")
+                                            .frame(maxWidth: .infinity)
+                                            .padding())
                         }
                         NavigationLink(destination: SettingsView(settings: settings, lengthAmount: String(settings.lengthAmount))){
                             Image(systemName: "gear")
@@ -100,11 +107,11 @@ struct ContentView: View {
                 }
                 .frame(maxHeight: UIScreen.main.bounds.size.height, alignment: .topLeading)
                 .navigationBarHidden(verticalSizeClass == .compact)
+                .padding(8)
                 .opacity(verticalSizeClass == .compact ? 1 : 0)
             }
             .frame(maxHeight: .infinity, alignment: .topLeading)
             .navigationTitle("Pick a Driver")
-            
         .foregroundColor(Color(UIColor.label))
     }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -142,6 +149,16 @@ struct ContentView: View {
 }
 
 
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ContentView(driverIndex: DriverIndex(), settings: Settings())
+                //.previewDevice("iPod Touch")
+                .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+        }
+        
+    }
+}
 
 
 

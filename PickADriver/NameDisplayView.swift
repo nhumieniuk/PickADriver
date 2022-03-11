@@ -44,7 +44,7 @@ struct NameDisplayView: View {
                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .center)
                             .background(Color(UIColor.secondarySystemBackground))
                             .foregroundColor(Color(UIColor.label))
-                            .cornerRadius(10)
+                            .cornerRadius(20)
                             .onTapGesture {
                                 driverIndex.names[index].faded.toggle()
                             }
