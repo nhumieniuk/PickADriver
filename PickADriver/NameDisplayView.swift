@@ -53,6 +53,7 @@ struct NameDisplayView: View {
                     }
                 }
             }
+            .padding(8)
         }
         Spacer()
         Button("Select a random person"){
