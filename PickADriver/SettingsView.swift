@@ -133,15 +133,12 @@ class Settings: ObservableObject{
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode(Double.self, from: lengthAmount) {
                 self.lengthAmount = decoded
-                return
                 }
             }
         if let textScaling = UserDefaults.standard.data(forKey: "textScaling") {
-            
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode(Bool.self, from: textScaling) {
                 self.textScaling = decoded
-                return
                 }
             }
         if let textScalingSize = UserDefaults.standard.data(forKey: "textScalingSize") {
