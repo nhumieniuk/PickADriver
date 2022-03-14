@@ -40,6 +40,8 @@ struct NameDisplayView: View {
                 ForEach(driverIndex.names.indices, id: \.self) { index in
                     if(driverIndex.names[index].period == period){
                         Text(driverIndex.names[index].name)
+                            .minimumScaleFactor(settings.textScaling ? settings.textScalingSize : 1)
+                            .lineLimit(1)
                             .padding()
                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .center)
                             .background(Color(UIColor.secondarySystemBackground))

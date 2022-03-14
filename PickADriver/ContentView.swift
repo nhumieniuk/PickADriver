@@ -38,7 +38,8 @@ struct ContentView: View {
                                 .overlay(Text("Edit Names")
                                             .frame(maxWidth: .infinity)
                                             .padding()
-                                            .lineLimit(2))
+                                            .minimumScaleFactor(0.8)
+                                            .lineLimit(1))
                         }
                         NavigationLink(destination: SettingsView(settings: settings, lengthAmount: String(settings.lengthAmount))){
                             Image(systemName: "gear")

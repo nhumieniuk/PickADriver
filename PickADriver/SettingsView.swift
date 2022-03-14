@@ -41,6 +41,16 @@ struct SettingsView: View {
             {
                 Toggle(isOn: $settings.exponentialFormula, label: {Text("Suspense Mode")})
             }
+            Section(header: Text("Text Scaling"), footer: Text("Use this if names frequently get truncated. (Ends with ...)")) {
+                Toggle(isOn: $settings.textScaling, label: {
+                    Text("Shrinked Text")
+                })
+                NavigationLink(destination: TextAdjustmentView(settings: settings)){
+                    Text("Settings")
+                }
+                .disabled(settings.textScaling == false)
+                
+            }
         }
         .toast(isPresenting: $showValidToast){
             AlertToast(displayMode: .banner(.slide), type: .complete(Color(UIColor.systemGreen)), title: "Success!", subTitle: "Length has been successfully set to \(lengthAmount)")
@@ -83,10 +93,29 @@ class Settings: ObservableObject{
         }
         }
     }
+    @Published var textScaling: Bool {
+        didSet{
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(textScaling) {
+            UserDefaults.standard.set(encoded, forKey: "textScaling")
+        }
+        }
+    }
+    @Published var textScalingSize: CGFloat {
+        didSet{
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(textScalingSize) {
+            UserDefaults.standard.set(encoded, forKey: "textScalingSize")
+        }
+        }
+        
+    }
     init(){
         self.lengthAmount = 30.0
         self.exponentialFormula = false
         self.minNumberOfColumns = 1
+        self.textScaling = true
+        self.textScalingSize = 1.0
         if let exponentialFormula = UserDefaults.standard.data(forKey: "exponentialFormula") {
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode(Bool.self, from: exponentialFormula) {
@@ -104,6 +133,21 @@ class Settings: ObservableObject{
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode(Double.self, from: lengthAmount) {
                 self.lengthAmount = decoded
+                return
+                }
+            }
+        if let textScaling = UserDefaults.standard.data(forKey: "textScaling") {
+            
+            let decoder = JSONDecoder()
+            if let decoded = try? decoder.decode(Bool.self, from: textScaling) {
+                self.textScaling = decoded
+                return
+                }
+            }
+        if let textScalingSize = UserDefaults.standard.data(forKey: "textScalingSize") {
+            let decoder = JSONDecoder()
+            if let decoded = try? decoder.decode(CGFloat.self, from: textScalingSize) {
+                self.textScalingSize = decoded
                 return
                 }
             }

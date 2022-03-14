@@ -20,6 +20,7 @@
 		3F9E9DAB27AAE76300EF779B /* EditStudentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9E9DAA27AAE76300EF779B /* EditStudentsView.swift */; };
 		3F9E9DAD27AAE76A00EF779B /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9E9DAC27AAE76A00EF779B /* AddView.swift */; };
 		3F9E9DAF27AAE77300EF779B /* NameDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9E9DAE27AAE77300EF779B /* NameDisplayView.swift */; };
+		3FBCA71727DBE25D00642686 /* TextAdjustmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBCA71627DBE25D00642686 /* TextAdjustmentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		3F9E9DAA27AAE76300EF779B /* EditStudentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStudentsView.swift; sourceTree = "<group>"; };
 		3F9E9DAC27AAE76A00EF779B /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		3F9E9DAE27AAE77300EF779B /* NameDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameDisplayView.swift; sourceTree = "<group>"; };
+		3FBCA71627DBE25D00642686 /* TextAdjustmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAdjustmentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				3F9E9DAA27AAE76300EF779B /* EditStudentsView.swift */,
 				3F9E9DAC27AAE76A00EF779B /* AddView.swift */,
 				3F9E9DAE27AAE77300EF779B /* NameDisplayView.swift */,
+				3FBCA71627DBE25D00642686 /* TextAdjustmentView.swift */,
 				3F9E9D9B27AAE70700EF779B /* Assets.xcassets */,
 				3F9E9DA027AAE70700EF779B /* Info.plist */,
 				3F9E9D9D27AAE70700EF779B /* Preview Content */,
@@ -180,6 +183,7 @@
 				3F9E9DAD27AAE76A00EF779B /* AddView.swift in Sources */,
 				3F9E9D9827AAE70200EF779B /* PickADriverApp.swift in Sources */,
 				3F34679327BD5C0B00CD6D6F /* ActivityIndicator.swift in Sources */,
+				3FBCA71727DBE25D00642686 /* TextAdjustmentView.swift in Sources */,
 				3F34679127BD5C0B00CD6D6F /* BlurView.swift in Sources */,
 				3F34679227BD5C0B00CD6D6F /* AlertToast.swift in Sources */,
 				3F9E9DA727AAE74F00EF779B /* DriverIndex.swift in Sources */,
