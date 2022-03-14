@@ -115,7 +115,7 @@ class Settings: ObservableObject{
         self.exponentialFormula = false
         self.minNumberOfColumns = 1
         self.textScaling = false
-        self.textScalingSize = 1.0
+        self.textScalingSize = 0.5
         if let exponentialFormula = UserDefaults.standard.data(forKey: "exponentialFormula") {
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode(Bool.self, from: exponentialFormula) {
