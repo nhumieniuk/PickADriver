@@ -13,6 +13,7 @@ struct NameDisplayView: View {
     @State private var winnerText = Text("")
     @State private var winnerShown = false
     @State private var selectingButton = false
+    @State private var showEmptyAlert = false
     let gridItemLayout: [GridItem]
     let period: Int
     var body: some View {
@@ -23,16 +24,22 @@ struct NameDisplayView: View {
                     .foregroundColor(Color(UIColor.label))
                     .font(.largeTitle)
                     .multilineTextAlignment(.center)
-                Button("reset")
-                {
-                    for i in 0..<currentPeriodIndices().count {
-                        driverIndex.names[currentPeriodIndices()[i]].invisible = false
+                Button(action: {reset(period: period)}){
+                    ZStack{
+                        Image(systemName: "circle.fill")
+                            .resizable()
+                            .frame(maxWidth: 50, maxHeight: 50)
+                            .foregroundColor(Color(UIColor.secondarySystemBackground))
+                        Image(systemName: "arrow.clockwise.circle")
+                            .resizable()
+                            .frame(maxWidth: 50, maxHeight: 50)
+                            .foregroundColor(Color(UIColor.systemBlue))
+                        Image(systemName: "circle")
+                            .resizable()
+                            .frame(maxWidth: 50, maxHeight: 50)
+                            .foregroundColor(Color(UIColor.secondarySystemBackground))
                     }
-                    winnerShown = false
-                    winnerText = Text("")
-                    selectingButton = false
                 }
-                .foregroundColor(Color(UIColor.systemBlue))
             }
             .opacity(winnerShown ? 1 : 0)
             
@@ -58,7 +65,8 @@ struct NameDisplayView: View {
             .padding(8)
         }
         Spacer()
-        Button("Select a random person"){
+        HStack{
+        Button("Pick a Driver"){
             var numberOfPeopleGrayedOut = 0
             for i in 0..<currentPeriodIndices().count {
                 if(driverIndex.names[currentPeriodIndices()[i]].faded == true){
@@ -72,11 +80,38 @@ struct NameDisplayView: View {
             }
             if(currentPeriodIndices().count - numberOfPeopleGrayedOut == 0)
             {
-                print("cannot select empty list")
+                showEmptyAlert = true
             }
         }
+        .alert(isPresented: $showEmptyAlert) {
+            Alert(title: Text("Empty List"), message: Text("There are no names available for selection in the list."), dismissButton: .default(Text("OK")))
+        }
         .padding()
+        .frame(minHeight: 50, maxHeight: 50, alignment: .center)
+        .background(Color(UIColor.secondarySystemBackground))
+        .foregroundColor(Color(UIColor.label))
+        .cornerRadius(20)
         .opacity(selectingButton ? 0.5 : 1)
+        .padding(8)
+            Button(action: {reset(period: period)}){
+                ZStack{
+                    Image(systemName: "circle.fill")
+                        .resizable()
+                        .frame(maxWidth: 50, maxHeight: 50)
+                        .foregroundColor(Color(UIColor.secondarySystemBackground))
+                    Image(systemName: "xmark.circle")
+                        .resizable()
+                        .frame(maxWidth: 50, maxHeight: 50)
+                        .foregroundColor(Color(UIColor.systemRed))
+                        .opacity(selectingButton ? 1 : 0.5)
+                    Image(systemName: "circle")
+                        .resizable()
+                        .frame(maxWidth: 50, maxHeight: 50)
+                        .foregroundColor(Color(UIColor.secondarySystemBackground))
+                }
+                
+            }
+        }
     }
     
     func currentPeriodIndices() -> Array<Int> {
@@ -129,7 +164,6 @@ struct NameDisplayView: View {
                             driverIndex.names[currentPeriodIndices()[i]].invisible = true
                             winnerText = Text(driverIndex.names[currentPeriodIndices()[i]].name)
                             winnerShown = true
-                            selectingButton = false
                         }
                     }
                 }
@@ -162,6 +196,7 @@ struct NameDisplayView: View {
             driverIndex.names[currentPeriodIndices()[i]].invisible = false
         }
         winnerShown = false
+        selectingButton = false
     }
     
     func exponentiallyDisappear(lengthAmount: Double, amountOfPeople: Int, index: Int) -> Double{
