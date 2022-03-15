@@ -73,10 +73,7 @@ struct NameDisplayView: View {
                     numberOfPeopleGrayedOut += 1
             }
             }
-            if(selectingQueue == true){
-                print("error: queue is selecting")
-            }
-            if(currentPeriodIndices().count - numberOfPeopleGrayedOut != 0 && driverIndex.reset == true && selectingQueue == false){
+            if(currentPeriodIndices().count - numberOfPeopleGrayedOut != 0 && driverIndex.reset == true){
                 driverIndex.reset = false
                 selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
             }
@@ -140,28 +137,28 @@ struct NameDisplayView: View {
             if(driverIndex.reset == false){
                 if i < amountOfPeople - numberOfPeopleGrayedOut {
                     let randomStudent = Int.random(in: 0..<currentPeriodIndices().count)
+                    let removeStudent = DispatchWorkItem {
+                        selectingQueue = false
+                        if(driverIndex.reset == false){
+                        i += 1
+                        driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
+                        nextIteration()
+                        }
+                    }
                     if(driverIndex.names[currentPeriodIndices()[randomStudent]].invisible == false && driverIndex.reset == false){
                         if(settings.exponentialFormula){
-                            selectingQueue = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + exponentiallyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut, index: i)) {
-                                selectingQueue = false
-                                if(driverIndex.reset == false){
-                                i += 1
-                                driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
-                                nextIteration()
-                                }
+                            if(selectingQueue == true){
+                                removeStudent.cancel()
                             }
+                            selectingQueue = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + exponentiallyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut, index: i), execute: removeStudent)
                         }
                         else{
-                            selectingQueue = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + linearlyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut)) {
-                                selectingQueue = false
-                                if(driverIndex.reset == false){
-                                i += 1
-                                driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
-                                nextIteration()
-                                }
+                            if(selectingQueue == true){
+                                removeStudent.cancel()
                             }
+                            selectingQueue = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + linearlyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut), execute: removeStudent)
                         }
                     }
                     else {
