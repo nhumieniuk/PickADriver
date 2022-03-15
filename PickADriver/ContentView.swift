@@ -120,7 +120,7 @@ struct ContentView: View {
     
     func returnColumnsNeeded(period: Int) -> Int
     {
-        let spaceNeeded = Int(UIScreen.main.bounds.height / 58) - 2
+        let spaceNeeded = Int(UIScreen.main.bounds.height / 58) - 3
         let amountOfColumns = ((periodIndices(period: period).count - 1) / spaceNeeded) + 1
         if(amountOfColumns < settings.minNumberOfColumns && settings.minNumberOfColumns <= periodIndices(period: period).count)
         {

@@ -97,16 +97,16 @@ struct NameDisplayView: View {
                 ZStack{
                     Image(systemName: "circle.fill")
                         .resizable()
-                        .frame(maxWidth: 50, maxHeight: 50)
+                        .frame(minWidth: 50, maxWidth: 50, minHeight: 50, maxHeight: 50)
                         .foregroundColor(Color(UIColor.secondarySystemBackground))
                     Image(systemName: "xmark.circle")
                         .resizable()
-                        .frame(maxWidth: 50, maxHeight: 50)
+                        .frame(minWidth: 50, maxWidth: 50, minHeight: 50, maxHeight: 50)
                         .foregroundColor(Color(UIColor.systemRed))
                         .opacity(selectingButton ? 1 : 0.5)
                     Image(systemName: "circle")
                         .resizable()
-                        .frame(maxWidth: 50, maxHeight: 50)
+                        .frame(minWidth: 50, maxWidth: 50, minHeight: 50, maxHeight: 50)
                         .foregroundColor(Color(UIColor.secondarySystemBackground))
                 }
                 
@@ -202,8 +202,8 @@ struct NameDisplayView: View {
     func exponentiallyDisappear(lengthAmount: Double, amountOfPeople: Int, index: Int) -> Double{
         let amountOfPeople = Double(amountOfPeople)
         let index = Double(index)
-        if(index == 0){
-            return 1.0
+        if(index + 1 == amountOfPeople){
+            return pow(pow(lengthAmount, 1/amountOfPeople), index) - pow(pow(lengthAmount, 1/amountOfPeople), index - 1) + 1
         }
         return pow(pow(lengthAmount, 1/amountOfPeople), index) - pow(pow(lengthAmount, 1/amountOfPeople), index - 1)
     }
