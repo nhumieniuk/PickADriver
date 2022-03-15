@@ -183,7 +183,7 @@ struct NameDisplayView: View {
     
     func exponentiallyDisappear(lengthAmount: Double, amountOfPeople: Int, index: Int) -> Double{
         let amountOfPeople = Double(amountOfPeople)
-        let index = Double(index)
+        let index = Double(index) + 1
         if(index + 1 == amountOfPeople){
             return pow(pow(lengthAmount, 1/amountOfPeople), index) - pow(pow(lengthAmount, 1/amountOfPeople), index - 1) + 1
         }
