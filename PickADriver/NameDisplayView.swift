@@ -86,6 +86,8 @@ struct NameDisplayView: View {
         .background(Color(UIColor.secondarySystemBackground))
         .foregroundColor(Color(UIColor.label))
         .cornerRadius(20)
+        .overlay(RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color(UIColor.secondaryLabel), lineWidth: 4))
         .opacity(driverIndex.reset ? 1 : 0.5)
         .padding(8)
             Button(action: {reset(period: period)}){
