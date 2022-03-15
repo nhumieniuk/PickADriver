@@ -13,7 +13,6 @@ struct NameDisplayView: View {
     @State private var winnerText = Text("")
     @State private var winnerShown = false
     @State private var showEmptyAlert = false
-    @State private var selectingQueue = false
     let gridItemLayout: [GridItem]
     let period: Int
     var body: some View {
@@ -138,7 +137,7 @@ struct NameDisplayView: View {
                 if i < amountOfPeople - numberOfPeopleGrayedOut {
                     let randomStudent = Int.random(in: 0..<currentPeriodIndices().count)
                     let removeStudent = DispatchWorkItem {
-                        selectingQueue = false
+                        driverIndex.selectingQueue = false
                         if(driverIndex.reset == false){
                         i += 1
                         driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
@@ -147,17 +146,17 @@ struct NameDisplayView: View {
                     }
                     if(driverIndex.names[currentPeriodIndices()[randomStudent]].invisible == false && driverIndex.reset == false){
                         if(settings.exponentialFormula){
-                            if(selectingQueue == true){
+                            if(driverIndex.selectingQueue == true){
                                 removeStudent.cancel()
                             }
-                            selectingQueue = true
+                            driverIndex.selectingQueue = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + exponentiallyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut, index: i), execute: removeStudent)
                         }
                         else{
-                            if(selectingQueue == true){
+                            if(driverIndex.selectingQueue == true){
                                 removeStudent.cancel()
                             }
-                            selectingQueue = true
+                            driverIndex.selectingQueue = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + linearlyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut), execute: removeStudent)
                         }
                     }

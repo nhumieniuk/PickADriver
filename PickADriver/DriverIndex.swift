@@ -17,8 +17,10 @@ class DriverIndex: ObservableObject {
         }
     }
     @Published var reset: Bool
+    @Published var selectingQueue: Bool
     init() {
         reset = true
+        selectingQueue = false
         if let names = UserDefaults.standard.data(forKey: "Pick a Driver:  Period") {
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode([Name].self, from: names) {
