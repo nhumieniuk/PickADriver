@@ -13,6 +13,7 @@ struct NameDisplayView: View {
     @State private var winnerText = Text("")
     @State private var winnerShown = false
     @State private var showEmptyAlert = false
+    @State private var selectingQueue = false
     let gridItemLayout: [GridItem]
     let period: Int
     var body: some View {
@@ -72,7 +73,10 @@ struct NameDisplayView: View {
                     numberOfPeopleGrayedOut += 1
             }
             }
-            if(currentPeriodIndices().count - numberOfPeopleGrayedOut != 0 && driverIndex.reset == true){
+            if(selectingQueue == true){
+                print("error: queue is selecting")
+            }
+            if(currentPeriodIndices().count - numberOfPeopleGrayedOut != 0 && driverIndex.reset == true && selectingQueue == false){
                 driverIndex.reset = false
                 selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
             }
@@ -138,7 +142,9 @@ struct NameDisplayView: View {
                     let randomStudent = Int.random(in: 0..<currentPeriodIndices().count)
                     if(driverIndex.names[currentPeriodIndices()[randomStudent]].invisible == false && driverIndex.reset == false){
                         if(settings.exponentialFormula){
+                            selectingQueue = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + exponentiallyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut, index: i)) {
+                                selectingQueue = false
                                 if(driverIndex.reset == false){
                                 i += 1
                                 driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
@@ -147,7 +153,9 @@ struct NameDisplayView: View {
                             }
                         }
                         else{
+                            selectingQueue = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + linearlyDisappear(lengthAmount: settings.lengthAmount, amountOfPeople: amountOfPeople - numberOfPeopleGrayedOut)) {
+                                selectingQueue = false
                                 if(driverIndex.reset == false){
                                 i += 1
                                 driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
