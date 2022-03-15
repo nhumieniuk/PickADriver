@@ -33,10 +33,7 @@ struct NameDisplayView: View {
                             .resizable()
                             .frame(maxWidth: 50, maxHeight: 50)
                             .foregroundColor(Color(UIColor.systemBlue))
-                        Image(systemName: "circle")
-                            .resizable()
-                            .frame(maxWidth: 50, maxHeight: 50)
-                            .foregroundColor(Color(UIColor.secondarySystemBackground))
+                        
                     }
                 }
             }
@@ -101,13 +98,8 @@ struct NameDisplayView: View {
                         .resizable()
                         .frame(minWidth: 50, maxWidth: 50, minHeight: 50, maxHeight: 50)
                         .foregroundColor(Color(UIColor.systemRed))
-                        .opacity(driverIndex.reset ? 0.5 : 1)
-                    Image(systemName: "circle")
-                        .resizable()
-                        .frame(minWidth: 50, maxWidth: 50, minHeight: 50, maxHeight: 50)
-                        .foregroundColor(Color(UIColor.secondarySystemBackground))
+                        .opacity(driverIndex.reset ? 0.2 : 1)
                 }
-                
             }
         }
     }
