@@ -27,7 +27,7 @@ struct ContentView: View {
                                             .padding())
                            
                         }
-                        .simultaneousGesture(TapGesture().onEnded {reset(period: period)})
+                        .simultaneousGesture(TapGesture().onEnded {reset(period: period); driverIndex.reset = true})
                     }
                     HStack{
                         NavigationLink(destination: EditPeriodsView(driverIndex: driverIndex)){
@@ -71,6 +71,7 @@ struct ContentView: View {
                                                 .frame(maxWidth: .infinity)
                                                 .padding())
                                 }
+                            .simultaneousGesture(TapGesture().onEnded {reset(period: period); driverIndex.reset = true})
                             NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period + 1)), period: period + 1)) {
                                 Capsule()
                                     .background(Color(UIColor.secondarySystemBackground))
@@ -80,7 +81,7 @@ struct ContentView: View {
                                                 .frame(maxWidth: .infinity)
                                                 .padding())
                                 }
-
+                            .simultaneousGesture(TapGesture().onEnded {reset(period: period); driverIndex.reset = true})
                             }
                         }
                     }
