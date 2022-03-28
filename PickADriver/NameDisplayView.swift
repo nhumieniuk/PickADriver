@@ -13,6 +13,7 @@ struct NameDisplayView: View {
     @State private var winnerText = Text("")
     @State private var winnerShown = false
     @State private var showEmptyAlert = false
+    @Environment(\.sizeCategory) var size
     let gridItemLayout: [GridItem]
     let period: Int
     var body: some View {
@@ -25,15 +26,14 @@ struct NameDisplayView: View {
                     .multilineTextAlignment(.center)
                 Button(action: {reset(period: period)}){
                     ZStack{
-                        Image(systemName: "circle.fill")
-                            .resizable()
-                            .frame(maxWidth: 50, maxHeight: 50)
+                        Rectangle()
+                            .frame(maxWidth: size >= .accessibilityMedium ? 75 : 50, maxHeight: size >= .accessibilityMedium ? 75 : 50)
                             .foregroundColor(Color(UIColor.secondarySystemBackground))
-                        Image(systemName: "arrow.clockwise.circle")
-                            .resizable()
-                            .frame(maxWidth: 50, maxHeight: 50)
+                            .cornerRadius(20)
+                        Image(systemName: "arrow.clockwise")
                             .foregroundColor(Color(UIColor.systemBlue))
-                        
+                            .font(.largeTitle)
+                            .imageScale(.small)
                     }
                 }
             }
@@ -86,24 +86,24 @@ struct NameDisplayView: View {
         .background(Color(UIColor.secondarySystemBackground))
         .foregroundColor(Color(UIColor.label))
         .cornerRadius(20)
-        .overlay(RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color(UIColor.secondaryLabel), lineWidth: 4))
         .opacity(driverIndex.reset ? 1 : 0.5)
-        .padding(8)
             Button(action: {reset(period: period)}){
                 ZStack{
-                    Image(systemName: "circle.fill")
-                        .resizable()
-                        .frame(minWidth: 50, maxWidth: 50, minHeight: 50, maxHeight: 50)
+                    Rectangle()
+                        .frame(maxWidth: 50, maxHeight: 50)
                         .foregroundColor(Color(UIColor.secondarySystemBackground))
-                    Image(systemName: "xmark.circle")
-                        .resizable()
-                        .frame(minWidth: 50, maxWidth: 50, minHeight: 50, maxHeight: 50)
+                        .cornerRadius(20)
+                    Image(systemName: "xmark")
                         .foregroundColor(Color(UIColor.systemRed))
+                        .font(.largeTitle)
+                        .imageScale(.small)
                         .opacity(driverIndex.reset ? 0.2 : 1)
+                    
                 }
+                
             }
         }
+        .padding(8)
     }
     
     func currentPeriodIndices() -> Array<Int> {

@@ -42,15 +42,17 @@ struct ContentView: View {
                                             .lineLimit(1))
                         }
                         NavigationLink(destination: SettingsView(settings: settings, lengthAmount: String(settings.lengthAmount))){
-                            Image(systemName: "gear")
-                                .resizable()
+                            Rectangle()
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .padding(UIScreen.main.nativeBounds.size.width / 12.6 / 5)
-                                .foregroundColor(Color(UIColor.label))
+                                .background(Color(UIColor.secondarySystemBackground))
+                                .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
+                                .aspectRatio(1, contentMode: .fit)
+                                .cornerRadius(20)
+                                .overlay(Image(systemName: "gear")
+                                            .font(.largeTitle)
+                                            .imageScale(.medium)
+                                .foregroundColor(Color(UIColor.label)))
                         }
-                        .background(Color(UIColor.secondarySystemBackground))
-                        .cornerRadius(20)
-                        .aspectRatio(1, contentMode: .fit)
                     }
                 }
                 .frame(maxHeight: .infinity, alignment: .topLeading)
@@ -96,15 +98,17 @@ struct ContentView: View {
                                             .padding())
                         }
                         NavigationLink(destination: SettingsView(settings: settings, lengthAmount: String(settings.lengthAmount))){
-                            Image(systemName: "gear")
-                                .resizable()
+                            Rectangle()
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .padding(UIScreen.main.nativeBounds.size.width / 12.6 / 5)
-                                .foregroundColor(Color(UIColor.label))
+                                .background(Color(UIColor.secondarySystemBackground))
+                                .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
+                                .aspectRatio(1, contentMode: .fit)
+                                .cornerRadius(20)
+                                .overlay(Image(systemName: "gear")
+                                            .font(.largeTitle)
+                                            .imageScale(.medium)
+                                .foregroundColor(Color(UIColor.label)))
                         }
-                        .background(Color(UIColor.secondarySystemBackground))
-                        .cornerRadius(20)
-                        .aspectRatio(1, contentMode: .fit)
                     }
                 }
                 .frame(maxHeight: UIScreen.main.bounds.size.height, alignment: .topLeading)
