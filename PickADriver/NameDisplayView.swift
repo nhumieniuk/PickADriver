@@ -17,93 +17,98 @@ struct NameDisplayView: View {
     let gridItemLayout: [GridItem]
     let period: Int
     var body: some View {
-        Spacer()
-        ZStack{
-            VStack{
-                winnerText
-                    .foregroundColor(Color(UIColor.label))
-                    .font(.largeTitle)
-                    .multilineTextAlignment(.center)
-                Button(action: {reset(period: period)}){
-                    ZStack{
-                        Rectangle()
-                            .frame(maxWidth: size >= .accessibilityMedium ? 75 : 50, maxHeight: size >= .accessibilityMedium ? 75 : 50)
-                            .foregroundColor(Color(UIColor.secondarySystemBackground))
-                            .cornerRadius(20)
-                        Image(systemName: "arrow.clockwise")
-                            .foregroundColor(Color(UIColor.systemBlue))
-                            .font(.largeTitle)
-                            .imageScale(.small)
-                    }
-                }
-            }
-            .opacity(winnerShown ? 1 : 0)
-            
-            LazyVGrid(columns: gridItemLayout, spacing: 8){
-                ForEach(driverIndex.names.indices, id: \.self) { index in
-                    if(driverIndex.names[index].period == period){
-                        Text(driverIndex.names[index].name)
-                            .minimumScaleFactor(settings.textScaling ? settings.textScalingSize : 1)
-                            .lineLimit(1)
-                            .padding()
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .center)
-                            .background(Color(UIColor.secondarySystemBackground))
-                            .foregroundColor(Color(UIColor.label))
-                            .cornerRadius(20)
-                            .onTapGesture {
-                                driverIndex.names[index].faded.toggle()
-                            }
-                            .opacity(driverIndex.names[index].faded ? 0.2 : 1)
-                            .opacity(driverIndex.names[index].invisible ? 0 : 1)
-                    }
-                }
-            }
-            .padding(8)
-        }
-        Spacer()
-        HStack{
-        Button("Pick a Driver"){
-            var numberOfPeopleGrayedOut = 0
-            for i in 0..<currentPeriodIndices().count {
-                if(driverIndex.names[currentPeriodIndices()[i]].faded == true){
-                    numberOfPeopleGrayedOut += 1
-            }
-            }
-            if(currentPeriodIndices().count - numberOfPeopleGrayedOut != 0 && driverIndex.reset == true){
-                driverIndex.reset = false
-                selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
-            }
-            if(currentPeriodIndices().count - numberOfPeopleGrayedOut == 0)
-            {
-                showEmptyAlert = true
-            }
-        }
-        .alert(isPresented: $showEmptyAlert) {
-            Alert(title: Text("Empty List"), message: Text("There are no names available for selection in the list."), dismissButton: .default(Text("OK")))
-        }
-        .padding()
-        .frame(minHeight: 50, maxHeight: 50, alignment: .center)
-        .background(Color(UIColor.secondarySystemBackground))
-        .foregroundColor(Color(UIColor.label))
-        .cornerRadius(20)
-        .opacity(driverIndex.reset ? 1 : 0.5)
-            Button(action: {reset(period: period)}){
+        NavigationView{
+            EditStudentsView(driverIndex: driverIndex, period: period)
+            Section{
+                Spacer()
                 ZStack{
-                    Rectangle()
-                        .frame(maxWidth: 50, maxHeight: 50)
-                        .foregroundColor(Color(UIColor.secondarySystemBackground))
-                        .cornerRadius(20)
-                    Image(systemName: "xmark")
-                        .foregroundColor(Color(UIColor.systemRed))
-                        .font(.largeTitle)
-                        .imageScale(.small)
-                        .opacity(driverIndex.reset ? 0.2 : 1)
+                    VStack{
+                        winnerText
+                            .foregroundColor(Color(UIColor.label))
+                            .font(.largeTitle)
+                            .multilineTextAlignment(.center)
+                        Button(action: {reset(period: period)}){
+                            ZStack{
+                                Rectangle()
+                                    .frame(maxWidth: size >= .accessibilityMedium ? 75 : 50, maxHeight: size >= .accessibilityMedium ? 75 : 50)
+                                    .foregroundColor(Color(UIColor.secondarySystemBackground))
+                                    .cornerRadius(20)
+                                Image(systemName: "arrow.clockwise")
+                                    .foregroundColor(Color(UIColor.systemBlue))
+                                    .font(.largeTitle)
+                                    .imageScale(.small)
+                            }
+                        }
+                    }
+                    .opacity(winnerShown ? 1 : 0)
                     
+                    LazyVGrid(columns: gridItemLayout, spacing: 8){
+                        ForEach(driverIndex.names.indices, id: \.self) { index in
+                            if(driverIndex.names[index].period == period){
+                                Text(driverIndex.names[index].name)
+                                    .minimumScaleFactor(settings.textScaling ? settings.textScalingSize : 1)
+                                    .lineLimit(1)
+                                    .padding()
+                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50, maxHeight: 50, alignment: .center)
+                                    .background(Color(UIColor.secondarySystemBackground))
+                                    .foregroundColor(Color(UIColor.label))
+                                    .cornerRadius(20)
+                                    .onTapGesture {
+                                        driverIndex.names[index].faded.toggle()
+                                    }
+                                    .opacity(driverIndex.names[index].faded ? 0.2 : 1)
+                                    .opacity(driverIndex.names[index].invisible ? 0 : 1)
+                            }
+                        }
+                    }
+                    .padding(8)
                 }
+                Spacer()
+                HStack{
+                    Button("Pick a Driver"){
+                        var numberOfPeopleGrayedOut = 0
+                        for i in 0..<currentPeriodIndices().count {
+                            if(driverIndex.names[currentPeriodIndices()[i]].faded == true){
+                                numberOfPeopleGrayedOut += 1
+                            }
+                        }
+                        if(currentPeriodIndices().count - numberOfPeopleGrayedOut != 0 && driverIndex.reset == true){
+                            driverIndex.reset = false
+                            selectRandomName(amountOfPeople: currentPeriodIndices().count - 1)
+                        }
+                        if(currentPeriodIndices().count - numberOfPeopleGrayedOut == 0)
+                        {
+                            showEmptyAlert = true
+                        }
+                    }
+                    .alert(isPresented: $showEmptyAlert) {
+                        Alert(title: Text("Empty List"), message: Text("There are no names available for selection in the list."), dismissButton: .default(Text("OK")))
+                    }
+                    .padding()
+                    .frame(minHeight: 50, maxHeight: 50, alignment: .center)
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .foregroundColor(Color(UIColor.label))
+                    .cornerRadius(20)
+                    .opacity(driverIndex.reset ? 1 : 0.5)
+                    Button(action: {reset(period: period)}){
+                        ZStack{
+                            Rectangle()
+                                .frame(maxWidth: 50, maxHeight: 50)
+                                .foregroundColor(Color(UIColor.secondarySystemBackground))
+                                .cornerRadius(20)
+                            Image(systemName: "xmark")
+                                .foregroundColor(Color(UIColor.systemRed))
+                                .font(.largeTitle)
+                                .imageScale(.small)
+                                .opacity(driverIndex.reset ? 0.2 : 1)
+                        }
+                        
+                    }
+                }
+                .padding(8)
                 
             }
         }
-        .padding(8)
     }
     
     func currentPeriodIndices() -> Array<Int> {
@@ -133,9 +138,9 @@ struct NameDisplayView: View {
                     let removeStudent = DispatchWorkItem {
                         driverIndex.selectingQueue = false
                         if(driverIndex.reset == false){
-                        i += 1
-                        driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
-                        nextIteration()
+                            i += 1
+                            driverIndex.names[currentPeriodIndices()[randomStudent]].invisible = true
+                            nextIteration()
                         }
                     }
                     if(driverIndex.names[currentPeriodIndices()[randomStudent]].invisible == false && driverIndex.reset == false){
@@ -156,19 +161,19 @@ struct NameDisplayView: View {
                     }
                     else {
                         if(driverIndex.reset == false){
-                        nextIteration()
+                            nextIteration()
                         }
                     }
                 }
                 else {
                     if(driverIndex.reset == false){
-                    for i in 0..<currentPeriodIndices().count {
-                        if(driverIndex.names[currentPeriodIndices()[i]].invisible == false){
-                            driverIndex.names[currentPeriodIndices()[i]].invisible = true
-                            winnerText = Text(driverIndex.names[currentPeriodIndices()[i]].name)
-                            winnerShown = true
+                        for i in 0..<currentPeriodIndices().count {
+                            if(driverIndex.names[currentPeriodIndices()[i]].invisible == false){
+                                driverIndex.names[currentPeriodIndices()[i]].invisible = true
+                                winnerText = Text(driverIndex.names[currentPeriodIndices()[i]].name)
+                                winnerShown = true
+                            }
                         }
-                    }
                     }
                 }
             }

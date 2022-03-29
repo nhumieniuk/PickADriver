@@ -13,7 +13,9 @@ struct ContentView: View {
     @ObservedObject var driverIndex: DriverIndex
     @ObservedObject var settings: Settings
     var body: some View {
+        
         NavigationView {
+        //    EditPeriodsView(driverIndex: driverIndex)
             ZStack{
                 VStack{
                     ForEach(periods, id: \.self) { period in
