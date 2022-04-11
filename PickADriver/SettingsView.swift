@@ -12,6 +12,7 @@ struct SettingsView: View {
     @State var lengthAmount: String
     @State private var showValidToast = false
     @State private var showInvalidToast = false
+    @State private var show5SecondToast = false
     var body: some View {
         Form{
             Section(header: Text("Duration"), footer: Text("Changing this value will change the duration of the selection process."))
@@ -19,6 +20,8 @@ struct SettingsView: View {
                 TextField("Length in Seconds", text: $lengthAmount)
                     .keyboardType(.decimalPad)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .disabled(settings.instantQueue)
+                    .opacity(settings.instantQueue ? 0.5 : 1)
                 Button("Save")
                 {
                     if(Double(lengthAmount) ?? 30.0 == 30.0 && Double(lengthAmount) != 30.0){
@@ -32,6 +35,9 @@ struct SettingsView: View {
                 }
                 .foregroundColor(Color.green)
                 .font(Font.headline.weight(.bold))
+                .disabled(settings.instantQueue)
+                .opacity(settings.instantQueue ? 0.5 : 1)
+                Toggle(isOn: $settings.instantQueue, label: {Text("Instantaneous")})
             }
             Section(header: Text("Minimum amount of columns"), footer: Text("Change this value to make use of horizontal space."))
             {
@@ -93,6 +99,14 @@ class Settings: ObservableObject{
         }
         }
     }
+    @Published var instantQueue: Bool {
+        didSet{
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(instantQueue) {
+            UserDefaults.standard.set(encoded, forKey: "instantQueue")
+        }
+        }
+    }
     @Published var textScaling: Bool {
         didSet{
         let encoder = JSONEncoder()
@@ -114,6 +128,7 @@ class Settings: ObservableObject{
         self.lengthAmount = 30.0
         self.exponentialFormula = false
         self.minNumberOfColumns = 1
+        self.instantQueue = false
         self.textScaling = false
         self.textScalingSize = 0.5
         if let exponentialFormula = UserDefaults.standard.data(forKey: "exponentialFormula") {
@@ -133,6 +148,12 @@ class Settings: ObservableObject{
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode(Double.self, from: lengthAmount) {
                 self.lengthAmount = decoded
+                }
+            }
+        if let instantQueue = UserDefaults.standard.data(forKey: "instantQueue") {
+            let decoder = JSONDecoder()
+            if let decoded = try? decoder.decode(Bool.self, from: instantQueue) {
+                self.instantQueue = decoded
                 }
             }
         if let textScaling = UserDefaults.standard.data(forKey: "textScaling") {

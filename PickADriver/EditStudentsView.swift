@@ -9,7 +9,8 @@ import SwiftUI
 
 struct EditStudentsView: View {
     @ObservedObject var driverIndex: DriverIndex
-    @State var showingPaymentAlert = false
+    @State private var showingClearAlert = false
+    @State private var showingQueueAlert = false
     @State private var showingAddView = false
     @State private var i = 0
     let period: Int
@@ -27,17 +28,42 @@ struct EditStudentsView: View {
             })
             Button("CLEAR ALL")
             {
-                showingPaymentAlert = true
+                if(driverIndex.selectingQueue){
+                    showingQueueAlert = true
+                }
+                else{
+                    showingClearAlert = true
+                }
             }
             .foregroundColor(Color.red)
-            .alert(isPresented: $showingPaymentAlert) {
+            .alert(isPresented: $showingClearAlert) {
                 Alert(title: Text("Are you sure you want to clear all names in this period?"), message: Text("This action cannot be undone."), primaryButton: .destructive(Text("Clear Names"), action: {deleteNames()}), secondaryButton: .cancel(Text("Cancel")))
             }
         }
         .sheet(isPresented: $showingAddView, content: {  AddView(driverIndex: driverIndex, period: period)
         })
-        .navigationBarItems(leading: EditButton(), trailing: Button(action:{
-                                                                        showingAddView = true}) {  Image(systemName: "plus")  })
+        .navigationBarItems(trailing: (Button(action:{
+            if(driverIndex.selectingQueue){
+                showingQueueAlert = true
+            }
+            else{
+                showingAddView = true
+            }
+        }) {Image(systemName: "plus")}))
+        .toolbar {
+            ToolbarItem(placement: .principal) {EditButton().disabled(driverIndex.selectingQueue)}
+        }
+        .alert(isPresented: $showingQueueAlert) {
+            Alert(title: Text("A name is being selected!"), message: Text("Please stop name selection before editing the student name list."), primaryButton: .destructive(Text("Stop Name Selection"), action: {resetAllPeriods()}), secondaryButton: .cancel(Text("Cancel")))
+        }
+    }
+    
+    func resetAllPeriods(){
+        for i in 0..<driverIndex.names.count{
+            driverIndex.names[i].invisible = false
+        }
+        driverIndex.reset = true
+        driverIndex.selectingQueue = false
     }
     
     func deleteNames(){

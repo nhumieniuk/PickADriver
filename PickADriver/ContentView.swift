@@ -13,9 +13,7 @@ struct ContentView: View {
     @ObservedObject var driverIndex: DriverIndex
     @ObservedObject var settings: Settings
     var body: some View {
-        
         NavigationView {
-        //    EditPeriodsView(driverIndex: driverIndex)
             ZStack{
                 VStack{
                     ForEach(periods, id: \.self) { period in
@@ -27,7 +25,7 @@ struct ContentView: View {
                                 .overlay(Text("Period \(period)")
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding())
-                           
+                            
                         }
                         .simultaneousGesture(TapGesture().onEnded {reset(period: period); driverIndex.reset = true})
                     }
@@ -53,7 +51,7 @@ struct ContentView: View {
                                 .overlay(Image(systemName: "gear")
                                             .font(.largeTitle)
                                             .imageScale(.medium)
-                                .foregroundColor(Color(UIColor.label)))
+                                            .foregroundColor(Color(UIColor.label)))
                         }
                     }
                 }
@@ -65,27 +63,27 @@ struct ContentView: View {
                 VStack{
                     ForEach(periods, id: \.self) { period in
                         if(period % 2 == 1){
-                        HStack{
-                            NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period)), period: period)) {
-                                Capsule()
-                                    .background(Color(UIColor.secondarySystemBackground))
-                                    .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
-                                    .cornerRadius(20)
-                                    .overlay(Text("Period \(period)")
-                                                .frame(maxWidth: .infinity)
-                                                .padding())
+                            HStack{
+                                NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period)), period: period)) {
+                                    Capsule()
+                                        .background(Color(UIColor.secondarySystemBackground))
+                                        .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
+                                        .cornerRadius(20)
+                                        .overlay(Text("Period \(period)")
+                                                    .frame(maxWidth: .infinity)
+                                                    .padding())
                                 }
-                            .simultaneousGesture(TapGesture().onEnded {reset(period: period); driverIndex.reset = true})
-                            NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period + 1)), period: period + 1)) {
-                                Capsule()
-                                    .background(Color(UIColor.secondarySystemBackground))
-                                    .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
-                                    .cornerRadius(20)
-                                    .overlay(Text("Period \(period + 1)")
-                                                .frame(maxWidth: .infinity)
-                                                .padding())
+                                .simultaneousGesture(TapGesture().onEnded {reset(period: period); driverIndex.reset = true})
+                                NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period + 1)), period: period + 1)) {
+                                    Capsule()
+                                        .background(Color(UIColor.secondarySystemBackground))
+                                        .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
+                                        .cornerRadius(20)
+                                        .overlay(Text("Period \(period + 1)")
+                                                    .frame(maxWidth: .infinity)
+                                                    .padding())
                                 }
-                            .simultaneousGesture(TapGesture().onEnded {reset(period: period); driverIndex.reset = true})
+                                .simultaneousGesture(TapGesture().onEnded {reset(period: period); driverIndex.reset = true})
                             }
                         }
                     }
@@ -109,7 +107,7 @@ struct ContentView: View {
                                 .overlay(Image(systemName: "gear")
                                             .font(.largeTitle)
                                             .imageScale(.medium)
-                                .foregroundColor(Color(UIColor.label)))
+                                            .foregroundColor(Color(UIColor.label)))
                         }
                     }
                 }
@@ -120,8 +118,8 @@ struct ContentView: View {
             }
             .frame(maxHeight: .infinity, alignment: .topLeading)
             .navigationTitle("Pick a Driver")
-        .foregroundColor(Color(UIColor.label))
-    }
+            .foregroundColor(Color(UIColor.label))
+        }
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
@@ -153,6 +151,8 @@ struct ContentView: View {
         for i in 0..<periodIndices(period: period).count {
             driverIndex.names[periodIndices(period: period)[i]].invisible = false
         }
+        driverIndex.reset = true
+        driverIndex.selectingQueue = false
     }
 }
 
