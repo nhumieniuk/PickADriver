@@ -28,10 +28,15 @@ struct SettingsView: View {
                         showInvalidToast = true
                     }
                     else{
-                        showValidToast = true
+                        if(Double(lengthAmount) ?? 30.0 < 5.0){
+                            show5SecondToast = true
+                            settings.lengthAmount = 5.0
+                        }
+                        else{
+                            settings.lengthAmount = Double(lengthAmount) ?? 30.0
+                            showValidToast = true
+                        }
                     }
-                    settings.lengthAmount = Double(lengthAmount) ?? 30.0
-                    print(settings.lengthAmount)
                 }
                 .foregroundColor(Color.green)
                 .font(Font.headline.weight(.bold))
@@ -60,6 +65,9 @@ struct SettingsView: View {
         }
         .toast(isPresenting: $showValidToast){
             AlertToast(displayMode: .banner(.slide), type: .complete(Color(UIColor.systemGreen)), title: "Success!", subTitle: "Length has been successfully set to \(lengthAmount)")
+        }
+        .toast(isPresenting: $show5SecondToast){
+            AlertToast(displayMode: .banner(.slide), type: .error(Color(UIColor.systemYellow)), title: "\(lengthAmount) is below minimum length.", subTitle: "Value set to minimum (5.0)")
         }
         .toast(isPresenting: $showInvalidToast){
             AlertToast(displayMode: .banner(.slide), type: .error(Color(UIColor.systemRed)), title: "\(lengthAmount) is not a valid length.", subTitle: "Value set to default (30.0)")
