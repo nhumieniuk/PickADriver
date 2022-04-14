@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var settings: Settings
+    @ObservedObject var driverIndex: DriverIndex
     @State var lengthAmount: String
     @State private var showValidToast = false
     @State private var showInvalidToast = false
@@ -44,10 +45,6 @@ struct SettingsView: View {
                 .opacity(settings.instantQueue ? 0.5 : 1)
                 Toggle(isOn: $settings.instantQueue, label: {Text("Instantaneous")})
             }
-            Section(header: Text("Minimum amount of columns"), footer: Text("Change this value to make use of horizontal space."))
-            {
-                Stepper(plural(), value: $settings.minNumberOfColumns, in: 1...10)
-            }
             Section(header: Text("Suspense Mode"), footer: Text("This option will make the names disappear fast initally, but slow down as it gets to the final few names."))
             {
                 Toggle(isOn: $settings.exponentialFormula, label: {Text("Suspense Mode")})
@@ -60,7 +57,13 @@ struct SettingsView: View {
                     Text("Settings")
                 }
                 .disabled(settings.textScaling == false)
-                
+            }
+            Section(header: Text("Minimum amount of columns"), footer: Text("Change this value to make use of horizontal space."))
+            {
+                Stepper(plural(), value: $settings.minNumberOfColumns, in: 1...10)
+            }
+            Section(header: Text("Button List Titles")) {
+                NavigationLink("Edit", destination: EditPeriodNamesView(driverIndex: driverIndex))
             }
         }
         .toast(isPresenting: $showValidToast){

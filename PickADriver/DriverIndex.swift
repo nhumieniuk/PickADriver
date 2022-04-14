@@ -16,11 +16,26 @@ class DriverIndex: ObservableObject {
             }
         }
     }
+    @Published var periods: [String] {
+        didSet {
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(periods) {
+                UserDefaults.standard.set(encoded, forKey: "periodNames")
+            }
+        }
+    }
     @Published var reset: Bool
     @Published var selectingQueue: Bool
     init() {
         reset = true
         selectingQueue = false
+        periods = ["Period 1", "Period 2", "Period 3", "Period 4", "Period 5", "Period 6", "Period 7", "Period 8"]
+        if let periods = UserDefaults.standard.data(forKey: "periodNames") {
+            let decoder = JSONDecoder()
+            if let decoded = try? decoder.decode([String].self, from: periods) {
+                self.periods = decoded
+            }
+        }
         if let names = UserDefaults.standard.data(forKey: "Pick a Driver:  Period") {
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode([Name].self, from: names) {

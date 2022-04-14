@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    let periods = [1, 2, 3, 4, 5, 6, 7, 8]
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @ObservedObject var driverIndex: DriverIndex
     @ObservedObject var settings: Settings
@@ -16,13 +15,13 @@ struct ContentView: View {
         NavigationView {
             ZStack{
                 VStack{
-                    ForEach(periods, id: \.self) { period in
+                    ForEach(driverIndex.periods.indices, id: \.self) { period in
                         NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period)), period: period)) {
                             Capsule()
                                 .background(Color(UIColor.secondarySystemBackground))
                                 .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
                                 .cornerRadius(20)
-                                .overlay(Text("Period \(period)")
+                                .overlay(Text(driverIndex.periods[period])
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding())
                             
@@ -41,7 +40,7 @@ struct ContentView: View {
                                             .minimumScaleFactor(0.8)
                                             .lineLimit(1))
                         }
-                        NavigationLink(destination: SettingsView(settings: settings, lengthAmount: String(settings.lengthAmount))){
+                        NavigationLink(destination: SettingsView(settings: settings, driverIndex: driverIndex, lengthAmount: String(settings.lengthAmount))){
                             Rectangle()
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(Color(UIColor.secondarySystemBackground))
@@ -61,7 +60,7 @@ struct ContentView: View {
                 .opacity(verticalSizeClass == .compact ? 0 : 1)
                 
                 VStack{
-                    ForEach(periods, id: \.self) { period in
+                    ForEach(driverIndex.periods.indices, id: \.self) { period in
                         if(period % 2 == 1){
                             HStack{
                                 NavigationLink(destination: NameDisplayView(driverIndex: driverIndex, settings: settings, gridItemLayout: Array(repeating: .init(.flexible()), count: returnColumnsNeeded(period: period)), period: period)) {
@@ -69,7 +68,7 @@ struct ContentView: View {
                                         .background(Color(UIColor.secondarySystemBackground))
                                         .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
                                         .cornerRadius(20)
-                                        .overlay(Text("Period \(period)")
+                                        .overlay(Text(driverIndex.periods[period - 1])
                                                     .frame(maxWidth: .infinity)
                                                     .padding())
                                 }
@@ -79,7 +78,7 @@ struct ContentView: View {
                                         .background(Color(UIColor.secondarySystemBackground))
                                         .foregroundColor(Color(UIColor.secondarySystemBackground).opacity(0))
                                         .cornerRadius(20)
-                                        .overlay(Text("Period \(period + 1)")
+                                        .overlay(Text(driverIndex.periods[period])
                                                     .frame(maxWidth: .infinity)
                                                     .padding())
                                 }
@@ -97,7 +96,7 @@ struct ContentView: View {
                                             .frame(maxWidth: .infinity)
                                             .padding())
                         }
-                        NavigationLink(destination: SettingsView(settings: settings, lengthAmount: String(settings.lengthAmount))){
+                        NavigationLink(destination: SettingsView(settings: settings, driverIndex: driverIndex, lengthAmount: String(settings.lengthAmount))){
                             Rectangle()
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(Color(UIColor.secondarySystemBackground))
