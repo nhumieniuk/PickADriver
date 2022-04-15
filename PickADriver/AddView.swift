@@ -20,7 +20,7 @@ struct AddView: View {
                     TextField("Name(s)", text: $name)
                 }
             }
-            .navigationBarTitle("Add New Student")
+            .navigationBarTitle("Add New Name")
             .navigationBarItems(
                 leading: Button("Cancel") {
                     presentationMode.wrappedValue.dismiss()

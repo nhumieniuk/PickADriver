@@ -14,6 +14,8 @@ struct SettingsView: View {
     @State private var showValidToast = false
     @State private var showInvalidToast = false
     @State private var show5SecondToast = false
+    @State private var showingImportExportView = false
+    @State private var export = false
     var body: some View {
         Form{
             Section(header: Text("Duration"), footer: Text("Changing this value will change the duration of the selection process."))
@@ -65,6 +67,16 @@ struct SettingsView: View {
             Section(header: Text("Button List Titles")) {
                 NavigationLink("Edit", destination: EditPeriodNamesView(driverIndex: driverIndex))
             }
+            Section(header: Text("Save data")) {
+                Button("Show import view"){
+                    export = false
+                    showingImportExportView = true
+                }
+                Button("Show export view"){
+                    export = true
+                    showingImportExportView = true
+                }
+            }
         }
         .toast(isPresenting: $showValidToast){
             AlertToast(displayMode: .banner(.slide), type: .complete(Color(UIColor.systemGreen)), title: "Success!", subTitle: "Length has been successfully set to \(lengthAmount)")
@@ -75,6 +87,7 @@ struct SettingsView: View {
         .toast(isPresenting: $showInvalidToast){
             AlertToast(displayMode: .banner(.slide), type: .error(Color(UIColor.systemRed)), title: "\(lengthAmount) is not a valid length.", subTitle: "Value set to default (30.0)")
         }
+        .sheet(isPresented: $showingImportExportView, content: {  ImportExportView(driverIndex: driverIndex, export: export)})
     }
     func plural() -> String{
         var text = "\(settings.minNumberOfColumns) Columns"
