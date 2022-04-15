@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NameDisplayView: View {
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @ObservedObject var driverIndex: DriverIndex
     @ObservedObject var settings: Settings
     @State private var winnerText = Text("")
@@ -20,7 +21,7 @@ struct NameDisplayView: View {
     let gridItemLayout: [GridItem]
     let period: Int
     var body: some View {
-        if(UIDevice.current.userInterfaceIdiom == .pad){
+        if(UIDevice.current.userInterfaceIdiom == .pad && horizontalSizeClass != .compact){
             NavigationView{
                 EditStudentsView(driverIndex: driverIndex, period: period)
                     .sheet(isPresented: $showingAddView, content: {  AddView(driverIndex: driverIndex, period: period)
